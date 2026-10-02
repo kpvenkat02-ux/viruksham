@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://milan-prism.vercel.app
+Sitemap: https://milan-prism.vercel.app/sitemap.xml

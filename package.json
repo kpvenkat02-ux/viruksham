@@ -1,0 +1,24 @@
+{
+  "name": "milan-prism-clone",
+  "version": "1.0.0",
+  "description": "High-fidelity clone of Viruksham (AMFI-Registered Mutual Fund Distributor) website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "node build-static.js"
+  },
+  "keywords": [
+    "mutual-funds",
+    "financial-advisor",
+    "nextjs",
+    "prism",
+    "clone"
+  ],
+  "author": "Viruksham",
+  "license": "ISC",
+  "dependencies": {
+    "lucide-react": "^1.48.0",
+    "sharp": "^0.35.4"
+  }
+}
