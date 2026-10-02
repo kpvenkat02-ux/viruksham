@@ -22,6 +22,47 @@ function copyDirRecursive(src, dest) {
   }
 }
 
+const PAGE_NAMES = [
+  'about', 'contact', 'disclaimer', 'disclosure', 'media',
+  'news_lakshya-mutual-fund-launches-lakshya-overnight-fund',
+  'privacy', 'services', 'terms', 'tools'
+];
+
+function fixPathsForGhPages(htmlContent, depth = 0) {
+  const prefix = depth === 0 ? './' : '../';
+
+  let fixed = htmlContent;
+
+  // 1. Assets: images, css, js, videos, _next
+  fixed = fixed.replace(/(href|src|poster|data-src)=["']\/_next\//g, `$1="${prefix}_next/`);
+  fixed = fixed.replace(/(href|src|poster|data-src)=["']\/images\//g, `$1="${prefix}images/`);
+  fixed = fixed.replace(/(href|src|poster|data-src)=["']\/css\//g, `$1="${prefix}css/`);
+  fixed = fixed.replace(/(href|src|poster|data-src)=["']\/js\//g, `$1="${prefix}js/`);
+  fixed = fixed.replace(/(href|src|poster|data-src)=["']\/videos\//g, `$1="${prefix}videos/`);
+
+  // 2. CSS inline background url(/images/...)
+  fixed = fixed.replace(/url\(["']?\/images\//g, `url("${prefix}images/`);
+  fixed = fixed.replace(/url\(["']?\/_next\//g, `url("${prefix}_next/`);
+  fixed = fixed.replace(/url\(["']?\/videos\//g, `url("${prefix}videos/`);
+
+  // 3. Icons & root meta
+  fixed = fixed.replace(/(href|src)=["']\/(favicon\.ico|icon\.png|icon\.svg|og\.png|robots\.txt|sitemap\.xml)["']/g, `$1="${prefix}$2"`);
+
+  // 4. Preload tags
+  fixed = fixed.replace(/href=["']\/(_next|images|css|js|videos)\//g, `href="${prefix}$1/`);
+
+  // 5. Internal page navigation links
+  for (const page of PAGE_NAMES) {
+    const reg = new RegExp(`href=["']\\/${page}(#[^"']*)?["']`, 'g');
+    fixed = fixed.replace(reg, (match, hash) => `href="${prefix}${page}.html${hash || ''}"`);
+  }
+
+  // 6. Home page links: href="/"
+  fixed = fixed.replace(/href=["']\/["']/g, `href="${prefix}index.html"`);
+
+  return fixed;
+}
+
 function build() {
   console.log('--- Building static distribution for GitHub Pages ---');
   if (fs.existsSync(DIST_DIR)) {
@@ -35,33 +76,35 @@ function build() {
     copyDirRecursive(PUBLIC_DIR, DIST_DIR);
   }
 
-  // 2. Copy scraped pages as root/nested HTML files
+  // 2. Copy and transform scraped pages as root and nested HTML files
   if (fs.existsSync(PAGES_DIR)) {
-    console.log('Copying pages from scraped/pages to dist/...');
+    console.log('Transforming and copying pages from scraped/pages to dist/...');
     const pages = fs.readdirSync(PAGES_DIR);
     for (const page of pages) {
       if (page.endsWith('.html')) {
         const pageSrc = path.join(PAGES_DIR, page);
-        const pageContent = fs.readFileSync(pageSrc, 'utf8');
+        const rawContent = fs.readFileSync(pageSrc, 'utf8');
 
-        // Target file
+        // Root level page (depth 0 -> ./ prefix)
+        const rootContent = fixPathsForGhPages(rawContent, 0);
         const pageDest = path.join(DIST_DIR, page);
-        fs.writeFileSync(pageDest, pageContent, 'utf8');
+        fs.writeFileSync(pageDest, rootContent, 'utf8');
 
-        // Also create clean URL directory (e.g., /about/index.html from about.html)
+        // Also create clean URL directory (e.g., /about/index.html from about.html with depth 1 -> ../ prefix)
         if (page !== 'index.html' && page !== '404.html') {
           const pageName = page.replace('.html', '');
           const dirDest = path.join(DIST_DIR, pageName);
           if (!fs.existsSync(dirDest)) {
             fs.mkdirSync(dirDest, { recursive: true });
           }
-          fs.writeFileSync(path.join(dirDest, 'index.html'), pageContent, 'utf8');
+          const nestedContent = fixPathsForGhPages(rawContent, 1);
+          fs.writeFileSync(path.join(dirDest, 'index.html'), nestedContent, 'utf8');
         }
       }
     }
   }
 
-  // 3. Create 404.html (using index.html as fallback for SPA routing)
+  // 3. Create 404.html (using transformed index.html)
   const indexSrc = path.join(DIST_DIR, 'index.html');
   if (fs.existsSync(indexSrc)) {
     fs.copyFileSync(indexSrc, path.join(DIST_DIR, '404.html'));
@@ -70,7 +113,7 @@ function build() {
   // 4. Create .nojekyll (CRITICAL for GitHub Pages to serve _next/ folder)
   fs.writeFileSync(path.join(DIST_DIR, '.nojekyll'), '', 'utf8');
 
-  console.log('✅ Static build complete! Output directory: dist/');
+  console.log('✅ Static build complete with relative paths! Output directory: dist/');
 }
 
 build();
