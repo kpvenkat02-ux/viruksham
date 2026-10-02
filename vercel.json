@@ -1,7 +1,6 @@
 {
-  "version": 2,
+  "framework": null,
   "buildCommand": "node build-static.js",
   "outputDirectory": "dist",
-  "cleanUrls": true,
-  "trailingSlash": false
+  "cleanUrls": true
 }

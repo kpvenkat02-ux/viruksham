@@ -1,8 +1,7 @@
 {
-  "name": "milan-prism-clone",
+  "name": "viruksham",
   "version": "1.0.0",
-  "description": "High-fidelity clone of Viruksham (AMFI-Registered Mutual Fund Distributor) website",
-  "main": "server.js",
+  "description": "Viruksham (AMFI-Registered Mutual Fund Distributor) website",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
