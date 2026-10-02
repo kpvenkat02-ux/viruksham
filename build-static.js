@@ -28,6 +28,13 @@ const PAGE_NAMES = [
   'privacy', 'services', 'terms', 'tools'
 ];
 
+const ROUTE_ALIASES = {
+  '/mutual-funds': 'services.html#mutual-funds',
+  '/blog': 'media.html',
+  '/news': 'media.html',
+  '/research': 'services.html'
+};
+
 function fixPathsForGhPages(htmlContent, depth = 0) {
   const prefix = depth === 0 ? './' : '../';
 
@@ -51,16 +58,37 @@ function fixPathsForGhPages(htmlContent, depth = 0) {
   // 4. Preload tags
   fixed = fixed.replace(/href=["']\/(_next|images|css|js|videos)\//g, `href="${prefix}$1/`);
 
-  // 5. Internal page navigation links
+  // 5. Route aliases (/mutual-funds, /blog, etc.)
+  for (const [route, target] of Object.entries(ROUTE_ALIASES)) {
+    const reg = new RegExp(`href=["']${route}(#[^"']*)?["']`, 'g');
+    fixed = fixed.replace(reg, (match, hash) => `href="${prefix}${target}${hash || ''}"`);
+  }
+
+  // 6. Internal page navigation links
   for (const page of PAGE_NAMES) {
     const reg = new RegExp(`href=["']\\/${page}(#[^"']*)?["']`, 'g');
     fixed = fixed.replace(reg, (match, hash) => `href="${prefix}${page}.html${hash || ''}"`);
   }
 
-  // 6. Home page links: href="/"
+  // 7. Home page links: href="/"
   fixed = fixed.replace(/href=["']\/["']/g, `href="${prefix}index.html"`);
 
   return fixed;
+}
+
+function createRedirectHtml(targetUrl) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <meta http-equiv="refresh" content="0; url=${targetUrl}">
+  <script>window.location.replace('${targetUrl}');</script>
+</head>
+<body>
+  <p>Redirecting to <a href="${targetUrl}">${targetUrl}</a>...</p>
+</body>
+</html>`;
 }
 
 function build() {
@@ -104,13 +132,24 @@ function build() {
     }
   }
 
-  // 3. Create 404.html (using transformed index.html)
+  // 3. Create fallback alias routes (e.g. /mutual-funds, /blog) as redirect pages
+  for (const [route, target] of Object.entries(ROUTE_ALIASES)) {
+    const routeName = route.replace('/', '');
+    const aliasDir = path.join(DIST_DIR, routeName);
+    if (!fs.existsSync(aliasDir)) {
+      fs.mkdirSync(aliasDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(aliasDir, 'index.html'), createRedirectHtml(`../${target}`), 'utf8');
+    fs.writeFileSync(path.join(DIST_DIR, `${routeName}.html`), createRedirectHtml(`./${target}`), 'utf8');
+  }
+
+  // 4. Create 404.html (using transformed index.html)
   const indexSrc = path.join(DIST_DIR, 'index.html');
   if (fs.existsSync(indexSrc)) {
     fs.copyFileSync(indexSrc, path.join(DIST_DIR, '404.html'));
   }
 
-  // 4. Create .nojekyll (CRITICAL for GitHub Pages to serve _next/ folder)
+  // 5. Create .nojekyll (CRITICAL for GitHub Pages to serve _next/ folder)
   fs.writeFileSync(path.join(DIST_DIR, '.nojekyll'), '', 'utf8');
 
   console.log('✅ Static build complete with relative paths! Output directory: dist/');
