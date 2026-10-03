@@ -120,29 +120,13 @@ function build() {
         const rootContent = fixPathsForGhPages(rawContent, 0);
         const pageDest = path.join(DIST_DIR, page);
         fs.writeFileSync(pageDest, rootContent, 'utf8');
-
-        // Also create clean URL directory (e.g., /about/index.html from about.html with depth 1 -> ../ prefix)
-        if (page !== 'index.html' && page !== '404.html') {
-          const pageName = page.replace('.html', '');
-          const dirDest = path.join(DIST_DIR, pageName);
-          if (!fs.existsSync(dirDest)) {
-            fs.mkdirSync(dirDest, { recursive: true });
-          }
-          const nestedContent = fixPathsForGhPages(rawContent, 1);
-          fs.writeFileSync(path.join(dirDest, 'index.html'), nestedContent, 'utf8');
-        }
       }
     }
   }
 
-  // 3. Create fallback alias routes (e.g. /mutual-funds, /blog) as redirect pages
+  // 3. Create fallback alias route HTML pages
   for (const [route, target] of Object.entries(ROUTE_ALIASES)) {
     const routeName = route.replace('/', '');
-    const aliasDir = path.join(DIST_DIR, routeName);
-    if (!fs.existsSync(aliasDir)) {
-      fs.mkdirSync(aliasDir, { recursive: true });
-    }
-    fs.writeFileSync(path.join(aliasDir, 'index.html'), createRedirectHtml(`../${target}`), 'utf8');
     fs.writeFileSync(path.join(DIST_DIR, `${routeName}.html`), createRedirectHtml(`./${target}`), 'utf8');
   }
 
