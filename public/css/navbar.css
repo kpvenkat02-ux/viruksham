@@ -774,3 +774,228 @@ h1.ldMMBd,
   flex-shrink: 0 !important;
 }
 
+/* ==========================================================================
+   GLOBAL PAGE STABILITY & FIXED HORIZONTAL CONTAINER ALIGNMENT
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box !important;
+}
+
+html {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  -webkit-text-size-adjust: 100% !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.shell__Page-sc-854e5662-0,
+.inywmO,
+main,
+section,
+.ui__Shell-sc-ebfd46a2-3,
+.KARJp {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ==========================================================================
+   PROCESS STEP CARDS & STEPS UI BORDER ENHANCEMENTS
+   ========================================================================== */
+/* Process Steps Grid */
+.process__Steps-sc-eb13173-0,
+[class*="process__Steps"],
+.bWJrYD {
+  display: grid !important;
+  gap: 20px !important;
+  margin-top: 2rem !important;
+  perspective: none !important;
+}
+
+/* Each Individual Step Card */
+.process__Step-sc-eb13173-1,
+[class*="process__Step"],
+.dnEXOr,
+.haTNLb,
+.klmcYX,
+.eNDhDP {
+  transform: none !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.process__Step-sc-eb13173-1 > *,
+[class*="process__Step"] > *,
+.tilt__Face-sc-fb2f1faa-0,
+.cgyjaY,
+.gtjZuq {
+  border: 1.5px solid rgba(1, 47, 106, 0.16) !important;
+  border-radius: 18px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(1, 47, 106, 0.06) !important;
+  padding: 24px 22px !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.process__Step-sc-eb13173-1:hover .tilt__Face-sc-fb2f1faa-0,
+.process__Step-sc-eb13173-1:hover .cgyjaY,
+.process__Step-sc-eb13173-1:hover .gtjZuq,
+[class*="process__Step"]:hover > * {
+  border-color: var(--color-gold, #e0b030) !important;
+  box-shadow: 0 12px 32px rgba(1, 47, 106, 0.12) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Process Step Number */
+.process__Number-sc-eb13173-6,
+[class*="process__Number"],
+.kJooGC {
+  font-family: var(--font-serif, "Libre Baskerville", Georgia, serif) !important;
+  font-size: 38px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  color: var(--color-gold, #e0b030) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--color-gold, #e0b030) !important;
+  opacity: 0.9 !important;
+  margin-bottom: 12px !important;
+}
+
+/* Process Step Title */
+.process__Title-sc-eb13173-7,
+[class*="process__Title"],
+.gUSAPR {
+  font-family: var(--font-serif, "Libre Baskerville", Georgia, serif) !important;
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  color: var(--color-navy, #012F6A) !important;
+  line-height: 1.35 !important;
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+}
+
+/* Process Step Description */
+.process__Description-sc-eb13173-8,
+[class*="process__Description"],
+.cedpwr {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif) !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: #4A5568 !important;
+  margin: 0 !important;
+  flex: 1 0 auto !important;
+}
+
+/* Process Step Node/Dot */
+.process__Node-sc-eb13173-3,
+.kjAgAa {
+  border: 2px solid var(--color-gold, #e0b030) !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(1, 47, 106, 0.12) !important;
+}
+
+/* ==========================================================================
+   SERVICES TILES & LINE GRID CARDS (BORDER & ALIGNMENT)
+   ========================================================================== */
+.services__LineGrid-sc-a73aa2d-6,
+[class*="services__LineGrid"],
+.fbHIor {
+  display: grid !important;
+  gap: 16px !important;
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+.services__LineTile-sc-a73aa2d-7,
+[class*="services__LineTile"],
+.gqViz,
+.fbHIor > li > * {
+  border: 1.5px solid rgba(1, 47, 106, 0.13) !important;
+  border-radius: 16px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(1, 47, 106, 0.05) !important;
+  padding: 22px 20px !important;
+  transition: all 0.25s ease !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
+.services__LineTile-sc-a73aa2d-7:hover,
+[class*="services__LineTile"]:hover,
+.gqViz:hover,
+.fbHIor > li > *:hover {
+  border-color: var(--color-gold, #e0b030) !important;
+  box-shadow: 0 10px 28px rgba(1, 47, 106, 0.12) !important;
+  transform: translateY(-3px) !important;
+}
+
+.services__LineNum-sc-a73aa2d-8,
+.dSAtnL {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--color-gold-deep, #B8860B) !important;
+  letter-spacing: 0.1em !important;
+}
+
+.services__LineTitle-sc-a73aa2d-9,
+.iUKlOc {
+  font-family: var(--font-serif, "Libre Baskerville", Georgia, serif) !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: var(--color-navy, #012F6A) !important;
+  margin-top: 8px !important;
+  margin-bottom: 6px !important;
+}
+
+.services__LineBody-sc-a73aa2d-10,
+.jevQhz {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif) !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+  color: #556987 !important;
+  margin: 0 !important;
+}
+
+/* ==========================================================================
+   PAGE DETAIL SECTIONS & ONBOARDING CTA
+   ========================================================================== */
+.page-parts__Detail-sc-3191763b-25,
+[class*="page-parts__Detail"],
+.eykWlI {
+  border: 1.5px solid rgba(1, 47, 106, 0.12) !important;
+  border-radius: 18px !important;
+  background: #FFFFFF !important;
+  padding: 32px 28px !important;
+  margin-bottom: 24px !important;
+  box-shadow: 0 6px 20px rgba(1, 47, 106, 0.05) !important;
+}
+
+.onboarding-cta__Root-sc-fdcd7728-0,
+[class*="onboarding-cta__Root"],
+.ckiWsk {
+  border: 1.5px solid rgba(1, 47, 106, 0.22) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(135deg, #F9FBFE 0%, #EDF4FD 100%) !important;
+  box-shadow: 0 8px 28px rgba(1, 47, 106, 0.08) !important;
+  padding: 28px 24px !important;
+}
+
+
