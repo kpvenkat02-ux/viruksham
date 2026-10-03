@@ -1139,4 +1139,35 @@ section#process,
   padding: 28px 24px !important;
 }
 
+/* ==========================================================================
+   VIRUKSHAM PROCESS SECTION (HOW WE WORK WITH YOU)
+   ========================================================================== */
+.viruksham-process-section {
+  background: #FFFFFF !important;
+}
+
+.viruksham-step-item:hover div:first-child {
+  transform: translateY(-4px) scale(1.08) !important;
+  border-color: #012F6A !important;
+  box-shadow: 0 8px 20px rgba(1, 47, 106, 0.22) !important;
+}
+
+@media (max-width: 900px) {
+  .viruksham-steps-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 36px 20px !important;
+  }
+  .viruksham-timeline-line {
+    display: none !important;
+  }
+}
+
+@media (max-width: 580px) {
+  .viruksham-steps-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+}
+
+
 
