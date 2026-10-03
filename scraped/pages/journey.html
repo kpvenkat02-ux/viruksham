@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Mutual Fund Journey | Interactive Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-cream-bg: #f3e6c8;
+      --color-cream-border: #d6c29a;
+      --color-cream-text: #1a1510;
+      --color-brown-bg: #7a4a2b;
+      --color-brown-border: #9a6440;
+      --color-brown-text: #ffffff;
+      --color-thread: #7a4a2b;
+      --color-thread-dark: #b9855c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fffdf9;
+      color: #1a1510;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      padding: 24px 12px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #0f1c3a;
+        color: #f3e6c8;
+      }
+    }
+
+    .journey-wrapper {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      background: #fffdf9;
+      color: #1a1510;
+      border-radius: 20px;
+      padding: 24px 18px 20px 18px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(214, 194, 154, 0.35);
+      position: relative;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .journey-wrapper {
+        background: #0f1c3a;
+        color: #f3e6c8;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      }
+      .journey-header h1 {
+        color: #f3e6c8 !important;
+      }
+      .journey-header p {
+        color: rgba(243, 230, 200, 0.75) !important;
+      }
+      .journey-progress-track {
+        background: rgba(255, 255, 255, 0.12) !important;
+      }
+      .journey-legend-label {
+        color: rgba(243, 230, 200, 0.85) !important;
+      }
+    }
+
+    .journey-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .journey-header h1 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #012F6A;
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+
+    .journey-header p {
+      font-size: 0.72rem;
+      color: #5a6578;
+      margin-bottom: 12px;
+    }
+
+    .journey-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .journey-progress-track {
+      flex: 1;
+      height: 5px;
+      background: #e8e2d5;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .journey-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #7a4a2b 0%, #10B981 100%);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .journey-replay-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: transparent;
+      border: 1px solid #7a4a2b;
+      color: #7a4a2b;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .journey-replay-btn:hover {
+      background: #7a4a2b;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .journey-replay-btn:focus-visible {
+      outline: 2.5px solid #10B981;
+      outline-offset: 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .journey-replay-btn {
+        border-color: #d6c29a;
+        color: #d6c29a;
+      }
+      .journey-replay-btn:hover {
+        background: #d6c29a;
+        color: #0f1c3a;
+      }
+    }
+
+    /* Flowchart Container */
+    .journey-flow-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+      min-height: 560px;
+      padding: 6px 0;
+    }
+
+    .journey-svg-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    /* Cards */
+    .journey-card {
+      position: relative;
+      z-index: 2;
+      width: 64%;
+      min-width: 150px;
+      padding: 7px 10px;
+      cursor: pointer;
+      user-select: none;
+      transform-origin: center center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      opacity: 0;
+      transform: scale(0.6) translateY(16px);
+    }
+
+    .journey-card.is-odd {
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    .journey-card.is-even {
+      align-self: flex-end;
+      text-align: left;
+    }
+
+    /* Asymmetric Leaf Corners */
+    .journey-card.step-cream {
+      background: var(--color-cream-bg);
+      color: var(--color-cream-text);
+      border: 1px solid var(--color-cream-border);
+      border-radius: 22px 8px 22px 8px;
+      box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.16);
+    }
+
+    .journey-card.step-brown {
+      background: var(--color-brown-bg);
+      color: var(--color-brown-text);
+      border: 1px solid var(--color-brown-border);
+      border-radius: 8px 22px 8px 22px;
+      box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.24);
+    }
+
+    .journey-card:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      box-shadow: 2px 6px 14px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    .journey-card:focus-visible {
+      outline: 2px solid #10B981;
+      outline-offset: 2px;
+    }
+
+    .journey-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 2px;
+    }
+
+    .journey-card-sub {
+      font-size: 0.72rem;
+      line-height: 1.35;
+      opacity: 0.92;
+    }
+
+    .journey-card-extra {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+      font-size: 0.68rem;
+      line-height: 1.3;
+      border-top: 1px dashed rgba(0,0,0,0.15);
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .journey-card.step-brown .journey-card-extra {
+      border-top-color: rgba(255,255,255,0.25);
+    }
+
+    .journey-card:hover .journey-card-extra {
+      max-height: 50px;
+      opacity: 1;
+      margin-top: 4px;
+      padding-top: 4px;
+    }
+
+    /* Spring Entrance Animation */
+    .journey-card.animate-pop {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.45s ease;
+    }
+
+    /* SVG Path animation */
+    .journey-thread-path {
+      fill: none;
+      stroke: var(--color-thread);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke-dashoffset 0.5s ease-out;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .journey-thread-path {
+        stroke: var(--color-thread-dark);
+      }
+    }
+
+    .journey-knot {
+      fill: var(--color-thread);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .journey-knot {
+        fill: var(--color-thread-dark);
+      }
+    }
+
+    .journey-knot.is-visible {
+      opacity: 1;
+    }
+
+    /* Legend */
+    .journey-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      font-size: 0.72rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .journey-legend {
+        border-top-color: rgba(255, 255, 255, 0.12);
+      }
+    }
+
+    .journey-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .journey-legend-dot {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      border-radius: 4px;
+      border: 1px solid transparent;
+    }
+
+    .journey-legend-dot.cream {
+      background: var(--color-cream-bg);
+      border-color: var(--color-cream-border);
+    }
+
+    .journey-legend-dot.brown {
+      background: var(--color-brown-bg);
+      border-color: var(--color-brown-border);
+    }
+
+    .journey-legend-label {
+      color: #3b4252;
+    }
+
+    /* Detail Modal */
+    .journey-dialog-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .journey-dialog-backdrop.is-open {
+      display: flex;
+    }
+
+    .journey-dialog-modal {
+      background: #FFFFFF;
+      color: #1a1510;
+      max-width: 360px;
+      width: 100%;
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      position: relative;
+      animation: dialogPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes dialogPop {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .journey-dialog-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #f0ede6;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      color: #555;
+    }
+
+    /* Prefers reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .journey-card {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .journey-thread-path {
+        stroke-dashoffset: 0 !important;
+        transition: none !important;
+      }
+      .journey-knot {
+        opacity: 1 !important;
+        transition: none !important;
+      }
+      .journey-progress-bar {
+        width: 100% !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="journey-wrapper" id="journeyBox">
+    <!-- Header -->
+    <header class="journey-header">
+      <h1>Your mutual fund journey</h1>
+      <p>A guided, 7-step roadmap from initial onboarding to disciplined wealth growth.</p>
+      
+      <div class="journey-actions-bar">
+        <div class="journey-progress-track" title="Step Progress">
+          <div class="journey-progress-bar" id="journeyProgressBar"></div>
+        </div>
+        <button type="button" class="journey-replay-btn" id="journeyReplayBtn" aria-label="Replay journey animation">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+          Replay
+        </button>
+      </div>
+    </header>
+
+    <!-- Flowchart -->
+    <div class="journey-flow-container" id="journeyFlowContainer">
+      <svg class="journey-svg-overlay" id="journeySvgOverlay" aria-hidden="true"></svg>
+
+      <!-- Step 1 (Odd: Left, Cream) -->
+      <div class="journey-card is-odd step-cream" data-step="1" tabindex="0" role="button" aria-label="Step 1: KYC and onboarding">
+        <div class="journey-card-title">1. KYC and onboarding</div>
+        <div class="journey-card-sub">PAN, Aadhaar, bank mandate</div>
+        <div class="journey-card-extra">One-time digital verification via CVLKRA/CAMS. Click for details.</div>
+      </div>
+
+      <!-- Step 2 (Even: Right, Cream) -->
+      <div class="journey-card is-even step-cream" data-step="2" tabindex="0" role="button" aria-label="Step 2: Goals and risk profile">
+        <div class="journey-card-title">2. Goals and risk profile</div>
+        <div class="journey-card-sub">Know your investor</div>
+        <div class="journey-card-extra">Assessing risk tolerance, horizon & retirement/education milestones.</div>
+      </div>
+
+      <!-- Step 3 (Odd: Left, Cream) -->
+      <div class="journey-card is-odd step-cream" data-step="3" tabindex="0" role="button" aria-label="Step 3: Asset allocation">
+        <div class="journey-card-title">3. Asset allocation</div>
+        <div class="journey-card-sub">Equity, debt, gold mix</div>
+        <div class="journey-card-extra">Optimal portfolio mix to balance growth with downside protection.</div>
+      </div>
+
+      <!-- Step 4 (Even: Right, Brown) -->
+      <div class="journey-card is-even step-brown" data-step="4" tabindex="0" role="button" aria-label="Step 4: Fund selection">
+        <div class="journey-card-title">4. Fund selection</div>
+        <div class="journey-card-sub">Schemes matched to goals</div>
+        <div class="journey-card-extra">Curating top-tier mutual funds with proven long-term track records.</div>
+      </div>
+
+      <!-- Step 5 (Odd: Left, Brown) -->
+      <div class="journey-card is-odd step-brown" data-step="5" tabindex="0" role="button" aria-label="Step 5: Start investing">
+        <div class="journey-card-title">5. Start investing</div>
+        <div class="journey-card-sub">SIP or lump sum</div>
+        <div class="journey-card-extra">Seamless auto-debit setup for disciplined rupee cost averaging.</div>
+      </div>
+
+      <!-- Step 6 (Even: Right, Brown) -->
+      <div class="journey-card is-even step-brown" data-step="6" tabindex="0" role="button" aria-label="Step 6: Monitor and review">
+        <div class="journey-card-title">6. Monitor and review</div>
+        <div class="journey-card-sub">Periodic performance check</div>
+        <div class="journey-card-extra">Regular portfolio check-ins with benchmark and market reviews.</div>
+      </div>
+
+      <!-- Step 7 (Odd: Left, Brown) -->
+      <div class="journey-card is-odd step-brown" data-step="7" tabindex="0" role="button" aria-label="Step 7: Rebalance, reach goals">
+        <div class="journey-card-title">7. Rebalance, reach goals</div>
+        <div class="journey-card-sub">Stay on track</div>
+        <div class="journey-card-extra">Realigning asset weights as milestones approach to secure capital.</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <footer class="journey-legend">
+      <div class="journey-legend-item">
+        <span class="journey-legend-dot cream"></span>
+        <span class="journey-legend-label">Plan and set up (steps 1 to 3)</span>
+      </div>
+      <div class="journey-legend-item">
+        <span class="journey-legend-dot brown"></span>
+        <span class="journey-legend-label">Invest and grow (steps 4 to 7)</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="journey-dialog-backdrop" id="journeyModal" role="dialog" aria-modal="true">
+    <div class="journey-dialog-modal">
+      <button type="button" class="journey-dialog-close" id="journeyModalClose" aria-label="Close details">&times;</button>
+      <div id="journeyModalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const STEP_DETAILS = {
+        1: {
+          title: "1. KYC and onboarding",
+          subtitle: "PAN, Aadhaar, bank mandate",
+          docs: "PAN Card, Aadhaar (linked to mobile OTP), Cheque / Bank Statement",
+          time: "5 - 15 minutes (fully digital)",
+          tip: "KYC is done once and is universally valid across all Indian Mutual Fund AMCs."
+        },
+        2: {
+          title: "2. Goals and risk profile",
+          subtitle: "Know your investor",
+          docs: "Investor profile assessment & target goal timelines",
+          time: "20 - 30 minutes consultation",
+          tip: "Determining whether you are conservative, moderate, or aggressive prevents emotional mistakes during market volatility."
+        },
+        3: {
+          title: "3. Asset allocation",
+          subtitle: "Equity, debt, gold mix",
+          docs: "Custom allocation framework based on age and horizon",
+          time: "15 minutes",
+          tip: "Asset allocation drives over 90% of long-term portfolio return variance, not individual fund picking."
+        },
+        4: {
+          title: "4. Fund selection",
+          subtitle: "Schemes matched to goals",
+          docs: "Fund factsheets, category peer rankings & Sharpe ratios",
+          time: "15 minutes",
+          tip: "We select high alpha, low expense ratio schemes with consistent 5-10 year track records."
+        },
+        5: {
+          title: "5. Start investing",
+          subtitle: "SIP or lump sum",
+          docs: "Auto-debit mandate (e-NACH / UPI Autopay)",
+          time: "Instant transaction execution",
+          tip: "Setting SIP dates right after your salary credit ensures uninterrupted, disciplined compounding."
+        },
+        6: {
+          title: "6. Monitor and review",
+          subtitle: "Periodic performance check",
+          docs: "Consolidated Account Statement (CAS) & portfolio reports",
+          time: "Quarterly / Half-yearly reviews",
+          tip: "Avoid checking daily NAV movements; focus on annual goal progress and rolling returns."
+        },
+        7: {
+          title: "7. Rebalance, reach goals",
+          subtitle: "Stay on track",
+          docs: "Rebalancing triggers & STP / SWP schedules",
+          time: "Annual review or upon reaching target goals",
+          tip: "Shift equity gains systematically into liquid/debt funds 2-3 years prior to target goal completion to protect your wealth."
+        }
+      };
+
+      const container = document.getElementById('journeyFlowContainer');
+      const svg = document.getElementById('journeySvgOverlay');
+      const cards = Array.from(container.querySelectorAll('.journey-card'));
+      const replayBtn = document.getElementById('journeyReplayBtn');
+      const progressBar = document.getElementById('journeyProgressBar');
+      const modal = document.getElementById('journeyModal');
+      const modalClose = document.getElementById('journeyModalClose');
+      const modalContent = document.getElementById('journeyModalContent');
+
+      let animationTimeouts = [];
+      let isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let hasAnimatedOnce = false;
+
+      function clearAllTimeouts() {
+        animationTimeouts.forEach(t => clearTimeout(t));
+        animationTimeouts = [];
+      }
+
+      function drawThreads() {
+        if (!container || !svg) return;
+        const containerRect = container.getBoundingClientRect();
+        const width = containerRect.width;
+        const height = containerRect.height;
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        svg.innerHTML = '';
+
+        for (let i = 0; i < cards.length - 1; i++) {
+          const c1 = cards[i];
+          const c2 = cards[i + 1];
+          const r1 = c1.getBoundingClientRect();
+          const r2 = c2.getBoundingClientRect();
+
+          const x1 = (r1.left + r1.right) / 2 - containerRect.left;
+          const y1 = r1.bottom - containerRect.top;
+
+          const x2 = (r2.left + r2.right) / 2 - containerRect.left;
+          const y2 = r2.top - containerRect.top;
+
+          const dy = y2 - y1;
+          const sway = (i % 2 === 0) ? 22 : -22;
+
+          const cp1x = x1 + sway;
+          const cp1y = y1 + dy * 0.45;
+          const cp2x = x2 - sway;
+          const cp2y = y2 - dy * 0.45;
+
+          const d = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', d);
+          path.setAttribute('class', 'journey-thread-path');
+          path.id = `thread-${i}`;
+
+          const knot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          knot.setAttribute('cx', x2);
+          knot.setAttribute('cy', y2);
+          knot.setAttribute('r', '5');
+          knot.setAttribute('class', 'journey-knot');
+          knot.id = `knot-${i}`;
+
+          svg.appendChild(path);
+          svg.appendChild(knot);
+
+          const pathLen = path.getTotalLength();
+          path.style.strokeDasharray = pathLen;
+          if (isReducedMotion || hasAnimatedOnce) {
+            path.style.strokeDashoffset = '0';
+            knot.classList.add('is-visible');
+          } else {
+            path.style.strokeDashoffset = pathLen;
+          }
+        }
+      }
+
+      function animateSequence() {
+        clearAllTimeouts();
+        hasAnimatedOnce = true;
+        isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (isReducedMotion) {
+          cards.forEach(c => c.classList.add('animate-pop'));
+          progressBar.style.width = '100%';
+          drawThreads();
+          return;
+        }
+
+        cards.forEach(c => c.classList.remove('animate-pop'));
+        progressBar.style.width = '0%';
+        drawThreads();
+
+        const stepDelay = 700;
+
+        cards.forEach((card, idx) => {
+          const tCard = setTimeout(() => {
+            card.classList.add('animate-pop');
+            const progressPct = Math.round(((idx + 1) / cards.length) * 100);
+            progressBar.style.width = progressPct + '%';
+
+            if (idx > 0) {
+              const threadIdx = idx - 1;
+              const path = document.getElementById(`thread-${threadIdx}`);
+              const knot = document.getElementById(`knot-${threadIdx}`);
+              if (path) path.style.strokeDashoffset = '0';
+              const tKnot = setTimeout(() => {
+                if (knot) knot.classList.add('is-visible');
+              }, 450);
+              animationTimeouts.push(tKnot);
+            }
+          }, idx * stepDelay);
+
+          animationTimeouts.push(tCard);
+        });
+      }
+
+      if (replayBtn) {
+        replayBtn.addEventListener('click', function () {
+          hasAnimatedOnce = false;
+          animateSequence();
+        });
+      }
+
+      function openModal(stepNum) {
+        const d = STEP_DETAILS[stepNum];
+        if (!d) return;
+        modalContent.innerHTML = `
+          <div style="display:inline-block; padding:3px 10px; background:${stepNum <= 3 ? '#f3e6c8' : '#7a4a2b'}; color:${stepNum <= 3 ? '#1a1510' : '#ffffff'}; font-size:11px; font-weight:700; border-radius:999px; margin-bottom:10px;">
+            ${stepNum <= 3 ? 'Phase 1: Plan & Setup' : 'Phase 2: Invest & Grow'}
+          </div>
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif; font-size:18px; color:#012F6A; margin:0 0 4px 0;">${d.title}</h3>
+          <p style="font-size:13px; color:#666; margin:0 0 16px 0; font-weight:500;">${d.subtitle}</p>
+          
+          <div style="background:#F8FAFC; border-radius:12px; padding:12px 14px; margin-bottom:12px; border:1px solid #E2E8F0;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#012F6A; margin-bottom:4px;">Requirements / Documents</div>
+            <div style="font-size:12.5px; color:#334155; line-height:1.45;">${d.docs}</div>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <div style="flex:1; background:#F8FAFC; border-radius:12px; padding:10px 12px; border:1px solid #E2E8F0;">
+              <div style="font-size:10.5px; font-weight:700; text-transform:uppercase; color:#012F6A;">Est. Time</div>
+              <div style="font-size:12px; color:#334155; font-weight:600; margin-top:2px;">${d.time}</div>
+            </div>
+          </div>
+
+          <div style="background:rgba(16, 185, 129, 0.08); border-left:3.5px solid #10B981; border-radius:0 10px 10px 0; padding:10px 12px;">
+            <div style="font-size:11px; font-weight:700; color:#065F46; margin-bottom:2px;">💡 Expert Tip</div>
+            <div style="font-size:12px; color:#065F46; line-height:1.4;">${d.tip}</div>
+          </div>
+        `;
+        modal.classList.add('is-open');
+      }
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+      }
+
+      if (modalClose) modalClose.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+
+      cards.forEach(card => {
+        const stepNum = card.getAttribute('data-step');
+        card.addEventListener('click', () => openModal(stepNum));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal(stepNum);
+          }
+        });
+      });
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          drawThreads();
+        }, 100);
+      });
+
+      setTimeout(animateSequence, 300);
+    })();
+  </script>
+</body>
+</html>

@@ -28,7 +28,7 @@ const PAGE_NAMES = [
   'article_sip-for-1-crore',
   'article_elss-vs-ppf',
   'article_regular-vs-direct-mutual-funds',
-  'privacy', 'services', 'terms', 'tools'
+  'privacy', 'services', 'terms', 'tools', 'journey'
 ];
 
 const ROUTE_ALIASES = {
