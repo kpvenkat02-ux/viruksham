@@ -3,12 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Mutual Fund Journey | Interactive Roadmap</title>
+  <title>Your Mutual Fund Journey | Single Row Interactive Roadmap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
   <style>
-    :root {
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fffdf9;
+      color: #1a1510;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 30px 16px;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #0f1c3a;
+        color: #f3e6c8;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- SINGLE HORIZONTAL ROW ANIMATED 7-STEP FLOWCHART JOURNEY -->
+<section id="roadmap" class="viruksham-journey-section" style="position: relative; background: linear-gradient(180deg, #012F6A 0%, #001A3D 50%, #012454 100%); padding: 75px 16px 85px 16px; color: #FFFFFF; overflow: hidden; border-top: 1px solid rgba(224, 176, 48, 0.25); border-bottom: 1px solid rgba(224, 176, 48, 0.25);">
+  
+  <style>
+    .viruksham-journey-section {
       --color-cream-bg: #f3e6c8;
       --color-cream-border: #d6c29a;
       --color-cream-text: #1a1510;
@@ -19,51 +47,34 @@
       --color-thread-dark: #b9855c;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #fffdf9;
-      color: #1a1510;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      padding: 24px 12px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: #0f1c3a;
-        color: #f3e6c8;
-      }
-    }
-
-    .journey-wrapper {
-      width: 100%;
-      max-width: 380px;
+    .journey-outer-container {
+      max-width: 1600px;
       margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2;
+    }
+
+    .journey-box {
+      width: 100%;
       background: #fffdf9;
       color: #1a1510;
-      border-radius: 20px;
-      padding: 24px 18px 20px 18px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(214, 194, 154, 0.35);
+      border-radius: 24px;
+      padding: 36px 24px 30px 24px;
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(224, 176, 48, 0.2);
       position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     @media (prefers-color-scheme: dark) {
-      .journey-wrapper {
+      .journey-box {
         background: #0f1c3a;
         color: #f3e6c8;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12);
+        box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12);
       }
-      .journey-header h1 {
+      .journey-header h3 {
         color: #f3e6c8 !important;
       }
       .journey-header p {
@@ -82,36 +93,40 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      position: relative;
     }
 
-    .journey-header h1 {
+    .journey-header h3 {
       font-family: 'Libre Baskerville', Georgia, serif;
-      font-size: 1.15rem;
+      font-size: clamp(1.25rem, 2.2vw, 1.65rem);
       font-weight: 700;
       color: #012F6A;
-      margin-bottom: 4px;
+      margin: 0 0 6px 0;
       line-height: 1.25;
     }
 
     .journey-header p {
-      font-size: 0.72rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.78rem, 1.1vw, 0.9rem);
       color: #5a6578;
-      margin-bottom: 12px;
+      margin: 0 0 16px 0;
+      max-width: 600px;
     }
 
     .journey-actions-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       width: 100%;
-      gap: 12px;
+      max-width: 480px;
+      gap: 16px;
       margin-top: 4px;
     }
 
     .journey-progress-track {
       flex: 1;
-      height: 5px;
+      height: 6px;
       background: #e8e2d5;
       border-radius: 999px;
       overflow: hidden;
@@ -129,14 +144,14 @@
     .journey-replay-btn {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       background: transparent;
-      border: 1px solid #7a4a2b;
+      border: 1.5px solid #7a4a2b;
       color: #7a4a2b;
       font-family: 'Inter', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 5px 14px;
       border-radius: 999px;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -164,15 +179,34 @@
       }
     }
 
-    /* Flowchart Container */
+    /* Horizontal Scroll Wrapper */
+    .journey-scroll-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(122, 74, 43, 0.4) transparent;
+      padding-bottom: 8px;
+    }
+
+    .journey-scroll-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+    .journey-scroll-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(122, 74, 43, 0.35);
+      border-radius: 999px;
+    }
+
+    /* Single Horizontal Row Flowchart Container */
     .journey-flow-container {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      width: 100%;
-      min-height: 560px;
-      padding: 6px 0;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      column-gap: 28px;
+      min-width: 1180px;
+      padding: 90px 8px;
+      box-sizing: border-box;
+      align-items: stretch;
     }
 
     .journey-svg-overlay {
@@ -190,9 +224,16 @@
     .journey-card {
       position: relative;
       z-index: 2;
-      width: 64%;
-      min-width: 150px;
-      padding: 7px 10px;
+      width: 100%;
+      height: 100%;
+      min-height: 110px;
+      padding: 16px 14px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       cursor: pointer;
       user-select: none;
       transform-origin: center center;
@@ -201,36 +242,26 @@
       transform: scale(0.6) translateY(16px);
     }
 
-    .journey-card.is-odd {
-      align-self: flex-start;
-      text-align: left;
-    }
-
-    .journey-card.is-even {
-      align-self: flex-end;
-      text-align: left;
-    }
-
-    /* Asymmetric Leaf Corners */
+    /* Leaf Style Asymmetric Corners */
     .journey-card.step-cream {
       background: var(--color-cream-bg);
       color: var(--color-cream-text);
       border: 1px solid var(--color-cream-border);
-      border-radius: 22px 8px 22px 8px;
-      box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.16);
+      border-radius: 40px 12px 40px 12px;
+      box-shadow: 2px 4px 0px rgba(0, 0, 0, 0.16);
     }
 
     .journey-card.step-brown {
       background: var(--color-brown-bg);
       color: var(--color-brown-text);
       border: 1px solid var(--color-brown-border);
-      border-radius: 8px 22px 8px 22px;
-      box-shadow: 2px 3px 0px rgba(0, 0, 0, 0.24);
+      border-radius: 12px 40px 12px 40px;
+      box-shadow: 2px 4px 0px rgba(0, 0, 0, 0.24);
     }
 
     .journey-card:hover {
-      transform: translateY(-3px) scale(1.02) !important;
-      box-shadow: 2px 6px 14px rgba(0, 0, 0, 0.25) !important;
+      transform: translateY(-4px) scale(1.025) !important;
+      box-shadow: 2px 8px 18px rgba(0, 0, 0, 0.26) !important;
     }
 
     .journey-card:focus-visible {
@@ -239,15 +270,18 @@
     }
 
     .journey-card-title {
-      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(.95rem, 1.3vw, 1.15rem);
       font-weight: 700;
       line-height: 1.25;
-      margin-bottom: 2px;
+      margin: 0 0 6px 0;
     }
 
     .journey-card-sub {
-      font-size: 0.72rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(.82rem, 1vw, .95rem);
       line-height: 1.35;
+      margin: 0;
       opacity: 0.92;
     }
 
@@ -256,11 +290,12 @@
       overflow: hidden;
       opacity: 0;
       transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
-      font-size: 0.68rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
       line-height: 1.3;
+      padding-top: 0;
       border-top: 1px dashed rgba(0,0,0,0.15);
       margin-top: 0;
-      padding-top: 0;
     }
 
     .journey-card.step-brown .journey-card-extra {
@@ -270,7 +305,7 @@
     .journey-card:hover .journey-card-extra {
       max-height: 50px;
       opacity: 1;
-      margin-top: 4px;
+      margin-top: 6px;
       padding-top: 4px;
     }
 
@@ -281,11 +316,11 @@
       transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.45s ease;
     }
 
-    /* SVG Path animation */
+    /* SVG Thread Arcs (3.5px stroke, round caps) */
     .journey-thread-path {
       fill: none;
       stroke: var(--color-thread);
-      stroke-width: 2.5;
+      stroke-width: 3.5;
       stroke-linecap: round;
       stroke-linejoin: round;
       transition: stroke-dashoffset 0.5s ease-out;
@@ -316,12 +351,14 @@
     /* Legend */
     .journey-legend {
       display: flex;
-      flex-direction: column;
-      gap: 7px;
-      margin-top: 22px;
-      padding-top: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      padding-top: 18px;
       border-top: 1px solid rgba(0, 0, 0, 0.08);
-      font-size: 0.72rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -333,12 +370,12 @@
     .journey-legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .journey-legend-dot {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
       border-radius: 4px;
       border: 1px solid transparent;
@@ -356,6 +393,7 @@
 
     .journey-legend-label {
       color: #3b4252;
+      font-weight: 500;
     }
 
     /* Detail Modal */
@@ -365,13 +403,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(5px);
       z-index: 9999;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 16px;
+      box-sizing: border-box;
     }
 
     .journey-dialog-backdrop.is-open {
@@ -381,10 +420,10 @@
     .journey-dialog-modal {
       background: #FFFFFF;
       color: #1a1510;
-      max-width: 360px;
+      max-width: 400px;
       width: 100%;
-      border-radius: 16px;
-      padding: 22px 20px;
+      border-radius: 18px;
+      padding: 24px 22px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
       position: relative;
       animation: dialogPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -433,101 +472,110 @@
       }
     }
   </style>
-</head>
-<body>
 
-  <main class="journey-wrapper" id="journeyBox">
-    <!-- Header -->
-    <header class="journey-header">
-      <h1>Your mutual fund journey</h1>
-      <p>A guided, 7-step roadmap from initial onboarding to disciplined wealth growth.</p>
+  <!-- Ambient Glows -->
+  <div style="position: absolute; top: 10%; left: -80px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(243, 230, 200, 0.12) 0%, transparent 70%); pointer-events: none; border-radius: 50%;"></div>
+  <div style="position: absolute; bottom: 10%; right: -80px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(122, 74, 43, 0.18) 0%, transparent 70%); pointer-events: none; border-radius: 50%;"></div>
+
+  <div class="journey-outer-container">
+    <div class="journey-box" id="journeyBox" role="region" aria-label="Interactive Mutual Fund Journey Flowchart">
       
-      <div class="journey-actions-bar">
-        <div class="journey-progress-track" title="Step Progress">
-          <div class="journey-progress-bar" id="journeyProgressBar"></div>
+      <!-- Header -->
+      <header class="journey-header">
+        <h3>Your mutual fund journey</h3>
+        <p>A guided, 7-step roadmap from initial onboarding to disciplined wealth growth.</p>
+        
+        <div class="journey-actions-bar">
+          <div class="journey-progress-track" title="Step Progress">
+            <div class="journey-progress-bar" id="journeyProgressBar"></div>
+          </div>
+          <button type="button" class="journey-replay-btn" id="journeyReplayBtn" aria-label="Replay journey animation">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            Replay
+          </button>
         </div>
-        <button type="button" class="journey-replay-btn" id="journeyReplayBtn" aria-label="Replay journey animation">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-          Replay
-        </button>
-      </div>
-    </header>
+      </header>
 
-    <!-- Flowchart -->
-    <div class="journey-flow-container" id="journeyFlowContainer">
-      <svg class="journey-svg-overlay" id="journeySvgOverlay" aria-hidden="true"></svg>
+      <!-- Horizontal Scroll Area -->
+      <div class="journey-scroll-wrapper">
+        <div class="journey-flow-container" id="journeyFlowContainer">
+          <svg class="journey-svg-overlay" id="journeySvgOverlay" aria-hidden="true"></svg>
 
-      <!-- Step 1 (Odd: Left, Cream) -->
-      <div class="journey-card is-odd step-cream" data-step="1" tabindex="0" role="button" aria-label="Step 1: KYC and onboarding">
-        <div class="journey-card-title">1. KYC and onboarding</div>
-        <div class="journey-card-sub">PAN, Aadhaar, bank mandate</div>
-        <div class="journey-card-extra">One-time digital verification via CVLKRA/CAMS. Click for details.</div>
+          <!-- Step 1 (Cream) -->
+          <div class="journey-card step-cream" data-step="1" tabindex="0" role="button" aria-label="Step 1: KYC and onboarding">
+            <div class="journey-card-title">1. KYC and onboarding</div>
+            <div class="journey-card-sub">PAN, Aadhaar, bank mandate</div>
+            <div class="journey-card-extra">Click for document details</div>
+          </div>
+
+          <!-- Step 2 (Cream) -->
+          <div class="journey-card step-cream" data-step="2" tabindex="0" role="button" aria-label="Step 2: Goals and risk profile">
+            <div class="journey-card-title">2. Goals and risk profile</div>
+            <div class="journey-card-sub">Know your investor</div>
+            <div class="journey-card-extra">Click for profile details</div>
+          </div>
+
+          <!-- Step 3 (Cream) -->
+          <div class="journey-card step-cream" data-step="3" tabindex="0" role="button" aria-label="Step 3: Asset allocation">
+            <div class="journey-card-title">3. Asset allocation</div>
+            <div class="journey-card-sub">Equity, debt, gold mix</div>
+            <div class="journey-card-extra">Click for allocation details</div>
+          </div>
+
+          <!-- Step 4 (Brown) -->
+          <div class="journey-card step-brown" data-step="4" tabindex="0" role="button" aria-label="Step 4: Fund selection">
+            <div class="journey-card-title">4. Fund selection</div>
+            <div class="journey-card-sub">Schemes matched to goals</div>
+            <div class="journey-card-extra">Click for selection criteria</div>
+          </div>
+
+          <!-- Step 5 (Brown) -->
+          <div class="journey-card step-brown" data-step="5" tabindex="0" role="button" aria-label="Step 5: Start investing">
+            <div class="journey-card-title">5. Start investing</div>
+            <div class="journey-card-sub">SIP or lump sum</div>
+            <div class="journey-card-extra">Click for execution details</div>
+          </div>
+
+          <!-- Step 6 (Brown) -->
+          <div class="journey-card step-brown" data-step="6" tabindex="0" role="button" aria-label="Step 6: Monitor and review">
+            <div class="journey-card-title">6. Monitor and review</div>
+            <div class="journey-card-sub">Periodic performance check</div>
+            <div class="journey-card-extra">Click for review schedule</div>
+          </div>
+
+          <!-- Step 7 (Brown) -->
+          <div class="journey-card step-brown" data-step="7" tabindex="0" role="button" aria-label="Step 7: Rebalance, reach goals">
+            <div class="journey-card-title">7. Rebalance, reach goals</div>
+            <div class="journey-card-sub">Stay on track</div>
+            <div class="journey-card-extra">Click for rebalancing tips</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Step 2 (Even: Right, Cream) -->
-      <div class="journey-card is-even step-cream" data-step="2" tabindex="0" role="button" aria-label="Step 2: Goals and risk profile">
-        <div class="journey-card-title">2. Goals and risk profile</div>
-        <div class="journey-card-sub">Know your investor</div>
-        <div class="journey-card-extra">Assessing risk tolerance, horizon & retirement/education milestones.</div>
-      </div>
+      <!-- Legend -->
+      <footer class="journey-legend">
+        <div class="journey-legend-item">
+          <span class="journey-legend-dot cream"></span>
+          <span class="journey-legend-label">Plan and set up (steps 1 to 3)</span>
+        </div>
+        <div class="journey-legend-item">
+          <span class="journey-legend-dot brown"></span>
+          <span class="journey-legend-label">Invest and grow (steps 4 to 7)</span>
+        </div>
+      </footer>
 
-      <!-- Step 3 (Odd: Left, Cream) -->
-      <div class="journey-card is-odd step-cream" data-step="3" tabindex="0" role="button" aria-label="Step 3: Asset allocation">
-        <div class="journey-card-title">3. Asset allocation</div>
-        <div class="journey-card-sub">Equity, debt, gold mix</div>
-        <div class="journey-card-extra">Optimal portfolio mix to balance growth with downside protection.</div>
-      </div>
-
-      <!-- Step 4 (Even: Right, Brown) -->
-      <div class="journey-card is-even step-brown" data-step="4" tabindex="0" role="button" aria-label="Step 4: Fund selection">
-        <div class="journey-card-title">4. Fund selection</div>
-        <div class="journey-card-sub">Schemes matched to goals</div>
-        <div class="journey-card-extra">Curating top-tier mutual funds with proven long-term track records.</div>
-      </div>
-
-      <!-- Step 5 (Odd: Left, Brown) -->
-      <div class="journey-card is-odd step-brown" data-step="5" tabindex="0" role="button" aria-label="Step 5: Start investing">
-        <div class="journey-card-title">5. Start investing</div>
-        <div class="journey-card-sub">SIP or lump sum</div>
-        <div class="journey-card-extra">Seamless auto-debit setup for disciplined rupee cost averaging.</div>
-      </div>
-
-      <!-- Step 6 (Even: Right, Brown) -->
-      <div class="journey-card is-even step-brown" data-step="6" tabindex="0" role="button" aria-label="Step 6: Monitor and review">
-        <div class="journey-card-title">6. Monitor and review</div>
-        <div class="journey-card-sub">Periodic performance check</div>
-        <div class="journey-card-extra">Regular portfolio check-ins with benchmark and market reviews.</div>
-      </div>
-
-      <!-- Step 7 (Odd: Left, Brown) -->
-      <div class="journey-card is-odd step-brown" data-step="7" tabindex="0" role="button" aria-label="Step 7: Rebalance, reach goals">
-        <div class="journey-card-title">7. Rebalance, reach goals</div>
-        <div class="journey-card-sub">Stay on track</div>
-        <div class="journey-card-extra">Realigning asset weights as milestones approach to secure capital.</div>
-      </div>
     </div>
+  </div>
 
-    <!-- Legend -->
-    <footer class="journey-legend">
-      <div class="journey-legend-item">
-        <span class="journey-legend-dot cream"></span>
-        <span class="journey-legend-label">Plan and set up (steps 1 to 3)</span>
-      </div>
-      <div class="journey-legend-item">
-        <span class="journey-legend-dot brown"></span>
-        <span class="journey-legend-label">Invest and grow (steps 4 to 7)</span>
-      </div>
-    </footer>
-  </main>
-
-  <!-- Detail Modal -->
-  <div class="journey-dialog-backdrop" id="journeyModal" role="dialog" aria-modal="true">
+  <!-- Step Details Dialog Modal -->
+  <div class="journey-dialog-backdrop" id="journeyModal" role="dialog" aria-modal="true" aria-labelledby="journeyModalTitle">
     <div class="journey-dialog-modal">
       <button type="button" class="journey-dialog-close" id="journeyModalClose" aria-label="Close details">&times;</button>
       <div id="journeyModalContent"></div>
     </div>
   </div>
 
+  <!-- Script for Alternating Above/Below Thread Arcs & Pop-in Sequence -->
   <script>
     (function () {
       const STEP_DETAILS = {
@@ -600,13 +648,16 @@
         animationTimeouts = [];
       }
 
+      // Compute & draw alternating above/below thread arcs between consecutive cards in horizontal row
       function drawThreads() {
         if (!container || !svg) return;
         const containerRect = container.getBoundingClientRect();
-        const width = containerRect.width;
+        const width = container.scrollWidth || containerRect.width;
         const height = containerRect.height;
         svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         svg.innerHTML = '';
+
+        const arcHeight = 64;
 
         for (let i = 0; i < cards.length - 1; i++) {
           const c1 = cards[i];
@@ -615,30 +666,34 @@
           const r2 = c2.getBoundingClientRect();
 
           const x1 = (r1.left + r1.right) / 2 - containerRect.left;
-          const y1 = r1.bottom - containerRect.top;
-
           const x2 = (r2.left + r2.right) / 2 - containerRect.left;
-          const y2 = r2.top - containerRect.top;
 
-          const dy = y2 - y1;
-          const sway = (i % 2 === 0) ? 22 : -22;
+          let y1, y2, d, knotY;
 
-          const cp1x = x1 + sway;
-          const cp1y = y1 + dy * 0.45;
-          const cp2x = x2 - sway;
-          const cp2y = y2 - dy * 0.45;
-
-          const d = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+          if (i % 2 === 0) {
+            // Even index i (0, 2, 4 -> 1->2, 3->4, 5->6): Arch ABOVE the row from top-center to top-center
+            y1 = r1.top - containerRect.top;
+            y2 = r2.top - containerRect.top;
+            d = `M ${x1} ${y1} C ${x1} ${y1 - arcHeight}, ${x2} ${y2 - arcHeight}, ${x2} ${y2}`;
+            knotY = y2;
+          } else {
+            // Odd index i (1, 3, 5 -> 2->3, 4->5, 6->7): Arch BELOW the row from bottom-center to bottom-center
+            y1 = r1.bottom - containerRect.top;
+            y2 = r2.bottom - containerRect.top;
+            d = `M ${x1} ${y1} C ${x1} ${y1 + arcHeight}, ${x2} ${y2 + arcHeight}, ${x2} ${y2}`;
+            knotY = y2;
+          }
 
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.setAttribute('d', d);
           path.setAttribute('class', 'journey-thread-path');
           path.id = `thread-${i}`;
 
+          // Knot circle (r=7) at the end of each thread
           const knot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
           knot.setAttribute('cx', x2);
-          knot.setAttribute('cy', y2);
-          knot.setAttribute('r', '5');
+          knot.setAttribute('cy', knotY);
+          knot.setAttribute('r', '7');
           knot.setAttribute('class', 'journey-knot');
           knot.id = `knot-${i}`;
 
@@ -707,27 +762,27 @@
         const d = STEP_DETAILS[stepNum];
         if (!d) return;
         modalContent.innerHTML = `
-          <div style="display:inline-block; padding:3px 10px; background:${stepNum <= 3 ? '#f3e6c8' : '#7a4a2b'}; color:${stepNum <= 3 ? '#1a1510' : '#ffffff'}; font-size:11px; font-weight:700; border-radius:999px; margin-bottom:10px;">
+          <div style="display:inline-block; padding:3px 10px; background:${stepNum <= 3 ? '#f3e6c8' : '#7a4a2b'}; color:${stepNum <= 3 ? '#1a1510' : '#ffffff'}; font-size:11px; font-weight:700; border-radius:999px; margin-bottom:10px; font-family:'Inter',sans-serif;">
             ${stepNum <= 3 ? 'Phase 1: Plan & Setup' : 'Phase 2: Invest & Grow'}
           </div>
-          <h3 style="font-family:'Libre Baskerville',Georgia,serif; font-size:18px; color:#012F6A; margin:0 0 4px 0;">${d.title}</h3>
-          <p style="font-size:13px; color:#666; margin:0 0 16px 0; font-weight:500;">${d.subtitle}</p>
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif; font-size:19px; color:#012F6A; margin:0 0 4px 0;">${d.title}</h3>
+          <p style="font-family:'Inter',sans-serif; font-size:13.5px; color:#666; margin:0 0 16px 0; font-weight:500;">${d.subtitle}</p>
           
           <div style="background:#F8FAFC; border-radius:12px; padding:12px 14px; margin-bottom:12px; border:1px solid #E2E8F0;">
-            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#012F6A; margin-bottom:4px;">Requirements / Documents</div>
-            <div style="font-size:12.5px; color:#334155; line-height:1.45;">${d.docs}</div>
+            <div style="font-family:'Inter',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#012F6A; margin-bottom:4px;">Requirements / Documents</div>
+            <div style="font-family:'Inter',sans-serif; font-size:13px; color:#334155; line-height:1.45;">${d.docs}</div>
           </div>
 
           <div style="display:flex; gap:10px; margin-bottom:12px;">
             <div style="flex:1; background:#F8FAFC; border-radius:12px; padding:10px 12px; border:1px solid #E2E8F0;">
-              <div style="font-size:10.5px; font-weight:700; text-transform:uppercase; color:#012F6A;">Est. Time</div>
-              <div style="font-size:12px; color:#334155; font-weight:600; margin-top:2px;">${d.time}</div>
+              <div style="font-family:'Inter',sans-serif; font-size:10.5px; font-weight:700; text-transform:uppercase; color:#012F6A;">Est. Time</div>
+              <div style="font-family:'Inter',sans-serif; font-size:12.5px; color:#334155; font-weight:600; margin-top:2px;">${d.time}</div>
             </div>
           </div>
 
           <div style="background:rgba(16, 185, 129, 0.08); border-left:3.5px solid #10B981; border-radius:0 10px 10px 0; padding:10px 12px;">
-            <div style="font-size:11px; font-weight:700; color:#065F46; margin-bottom:2px;">💡 Expert Tip</div>
-            <div style="font-size:12px; color:#065F46; line-height:1.4;">${d.tip}</div>
+            <div style="font-family:'Inter',sans-serif; font-size:11px; font-weight:700; color:#065F46; margin-bottom:2px;">💡 Expert Tip</div>
+            <div style="font-family:'Inter',sans-serif; font-size:12.5px; color:#065F46; line-height:1.4;">${d.tip}</div>
           </div>
         `;
         modal.classList.add('is-open');
@@ -769,8 +824,30 @@
         }, 100);
       });
 
-      setTimeout(animateSequence, 300);
+      const scrollWrapper = document.querySelector('.journey-scroll-wrapper');
+      if (scrollWrapper) {
+        scrollWrapper.addEventListener('scroll', () => {
+          drawThreads();
+        }, { passive: true });
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimatedOnce) {
+              animateSequence();
+            }
+          });
+        }, { threshold: 0.15 });
+
+        const journeyBox = document.getElementById('journeyBox');
+        if (journeyBox) observer.observe(journeyBox);
+      } else {
+        animateSequence();
+      }
+
     })();
   </script>
+</section>
 </body>
 </html>
