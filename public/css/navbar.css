@@ -2,6 +2,27 @@
    Viruksham Full-Width Notched Tab Navigation Bar & Golden Theme System
    ========================================================================== */
 
+/* Global Overflow & Accessibility Reset */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide unstyled Skip to Content elements across all pages */
+.shell__SkipLink,
+.jbfIIf,
+[class*="SkipLink"],
+a[href="#main"].shell__SkipLink-sc-854e5662-2,
+a[href="#main"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 :root {
   --color-navy: #012F6A !important;
   --color-navy-deep: #012F6A !important;
