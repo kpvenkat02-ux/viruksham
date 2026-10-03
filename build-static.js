@@ -155,25 +155,7 @@ function build() {
   // 5. Create .nojekyll (CRITICAL for GitHub Pages to serve _next/ folder)
   fs.writeFileSync(path.join(DIST_DIR, '.nojekyll'), '', 'utf8');
 
-  // 6. Generate Vercel Build Output API v3 (.vercel/output/static + config.json)
-  const VERCEL_OUTPUT_DIR = path.join(ROOT_DIR, '.vercel', 'output');
-  const VERCEL_STATIC_DIR = path.join(VERCEL_OUTPUT_DIR, 'static');
-  if (fs.existsSync(VERCEL_OUTPUT_DIR)) {
-    fs.rmSync(VERCEL_OUTPUT_DIR, { recursive: true, force: true });
-  }
-  fs.mkdirSync(VERCEL_STATIC_DIR, { recursive: true });
-  copyDirRecursive(DIST_DIR, VERCEL_STATIC_DIR);
-
-  const vercelConfig = {
-    version: 3,
-    routes: [
-      { handle: "filesystem" },
-      { src: "/(.*)", dest: "/$1.html", check: true }
-    ]
-  };
-  fs.writeFileSync(path.join(VERCEL_OUTPUT_DIR, 'config.json'), JSON.stringify(vercelConfig, null, 2), 'utf8');
-
-  console.log('✅ Static build complete! Output directories: dist/ and .vercel/output/');
+  console.log('✅ Static build complete with relative paths! Output directory: dist/');
 }
 
 build();
