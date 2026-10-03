@@ -1148,8 +1148,12 @@ section#process,
 
 .viruksham-step-item:hover div:first-child {
   transform: translateY(-4px) scale(1.08) !important;
-  border-color: #012F6A !important;
-  box-shadow: 0 8px 20px rgba(1, 47, 106, 0.22) !important;
+  border-color: #B8860B !important;
+  box-shadow: 0 8px 24px rgba(1, 47, 106, 0.25) !important;
+}
+
+.viruksham-step-item:hover div:first-child span {
+  color: #B8860B !important;
 }
 
 @media (max-width: 900px) {
