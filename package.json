@@ -4,17 +4,13 @@
   "description": "Viruksham (AMFI-Registered Mutual Fund Distributor) website",
   "scripts": {
     "dev": "node dev-server.js",
-    "start": "node dev-server.js",
     "build": "node build-static.js",
-    "vercel-build": "node build-static.js",
     "deploy": "node deploy.js"
   },
   "keywords": [
     "mutual-funds",
     "financial-advisor",
-    "nextjs",
-    "prism",
-    "clone"
+    "viruksham"
   ],
   "author": "Viruksham",
   "license": "ISC"
