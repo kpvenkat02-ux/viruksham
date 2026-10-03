@@ -1,5 +1,4 @@
 {
-  "framework": "other",
   "buildCommand": "node build-static.js",
   "outputDirectory": "dist",
   "cleanUrls": true
