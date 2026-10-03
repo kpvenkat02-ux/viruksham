@@ -1912,7 +1912,7 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
 
 
 <!-- SINGLE HORIZONTAL ROW ANIMATED 7-STEP FLOWCHART JOURNEY -->
-<section id="roadmap" class="viruksham-journey-section" style="position: relative; background: linear-gradient(180deg, #012F6A 0%, #001A3D 50%, #012454 100%); padding: 75px 16px 85px 16px; color: #FFFFFF; overflow: hidden; border-top: 1px solid rgba(224, 176, 48, 0.25); border-bottom: 1px solid rgba(224, 176, 48, 0.25);">
+<section id="roadmap" class="viruksham-journey-section" style="position: relative; background: linear-gradient(180deg, #012F6A 0%, #001A3D 50%, #012454 100%); padding: 65px 16px 75px 16px; color: #FFFFFF; overflow: hidden; border-top: 1px solid rgba(224, 176, 48, 0.25); border-bottom: 1px solid rgba(224, 176, 48, 0.25);">
   
   <style>
     .viruksham-journey-section {
@@ -1940,7 +1940,7 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
       background: #fffdf9;
       color: #1a1510;
       border-radius: 24px;
-      padding: 36px 24px 30px 24px;
+      padding: 30px 24px 28px 24px;
       box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(224, 176, 48, 0.2);
       position: relative;
       box-sizing: border-box;
@@ -1953,109 +1953,44 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
         color: #f3e6c8;
         box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12);
       }
-      .journey-header h3 {
-        color: #f3e6c8 !important;
+      .journey-subheading-wrap span {
+        color: #e0c989 !important;
       }
-      .journey-header p {
-        color: rgba(243, 230, 200, 0.75) !important;
-      }
-      .journey-progress-track {
-        background: rgba(255, 255, 255, 0.12) !important;
+      .journey-subheading-wrap span span {
+        background: #e0c989 !important;
       }
       .journey-legend-label {
         color: rgba(243, 230, 200, 0.85) !important;
       }
     }
 
-    .journey-header {
+    .journey-subheading-wrap {
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
       text-align: center;
       margin-bottom: 24px;
       position: relative;
     }
 
-    .journey-header h3 {
-      font-family: 'Libre Baskerville', Georgia, serif;
-      font-size: clamp(1.25rem, 2.2vw, 1.65rem);
-      font-weight: 700;
-      color: #012F6A;
-      margin: 0 0 6px 0;
-      line-height: 1.25;
-    }
-
-    .journey-header p {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(0.78rem, 1.1vw, 0.9rem);
-      color: #5a6578;
-      margin: 0 0 16px 0;
-      max-width: 600px;
-    }
-
-    .journey-actions-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 480px;
-      gap: 16px;
-      margin-top: 4px;
-    }
-
-    .journey-progress-track {
-      flex: 1;
-      height: 6px;
-      background: #e8e2d5;
-      border-radius: 999px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .journey-progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #7a4a2b 0%, #10B981 100%);
-      border-radius: 999px;
-      transition: width 0.4s ease;
-    }
-
-    .journey-replay-btn {
+    .journey-subheading-wrap span {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: transparent;
-      border: 1.5px solid #7a4a2b;
-      color: #7a4a2b;
+      gap: 12px;
       font-family: 'Inter', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #7a4a2b;
     }
 
-    .journey-replay-btn:hover {
+    .journey-subheading-wrap span span {
+      width: 28px;
+      height: 2px;
       background: #7a4a2b;
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-
-    .journey-replay-btn:focus-visible {
-      outline: 2.5px solid #10B981;
-      outline-offset: 2px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .journey-replay-btn {
-        border-color: #d6c29a;
-        color: #d6c29a;
-      }
-      .journey-replay-btn:hover {
-        background: #d6c29a;
-        color: #0f1c3a;
-      }
+      display: inline-block;
+      border-radius: 2px;
     }
 
     /* Horizontal Scroll Wrapper */
@@ -2345,10 +2280,6 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
         opacity: 1 !important;
         transition: none !important;
       }
-      .journey-progress-bar {
-        width: 100% !important;
-        transition: none !important;
-      }
     }
   </style>
 
@@ -2359,21 +2290,14 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
   <div class="journey-outer-container">
     <div class="journey-box" id="journeyBox" role="region" aria-label="Interactive Mutual Fund Journey Flowchart">
       
-      <!-- Header -->
-      <header class="journey-header">
-        <h3>Your mutual fund journey</h3>
-        <p>A guided, 7-step roadmap from initial onboarding to disciplined wealth growth.</p>
-        
-        <div class="journey-actions-bar">
-          <div class="journey-progress-track" title="Step Progress">
-            <div class="journey-progress-bar" id="journeyProgressBar"></div>
-          </div>
-          <button type="button" class="journey-replay-btn" id="journeyReplayBtn" aria-label="Replay journey animation">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-            Replay
-          </button>
-        </div>
-      </header>
+      <!-- Subheading: Your mutual fund journey -->
+      <div class="journey-subheading-wrap">
+        <span>
+          <span></span>
+          Your mutual fund journey
+          <span></span>
+        </span>
+      </div>
 
       <!-- Horizontal Scroll Area -->
       <div class="journey-scroll-wrapper">
@@ -2512,8 +2436,6 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
       const container = document.getElementById('journeyFlowContainer');
       const svg = document.getElementById('journeySvgOverlay');
       const cards = Array.from(container.querySelectorAll('.journey-card'));
-      const replayBtn = document.getElementById('journeyReplayBtn');
-      const progressBar = document.getElementById('journeyProgressBar');
       const modal = document.getElementById('journeyModal');
       const modalClose = document.getElementById('journeyModalClose');
       const modalContent = document.getElementById('journeyModalContent');
@@ -2597,13 +2519,11 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
 
         if (isReducedMotion) {
           cards.forEach(c => c.classList.add('animate-pop'));
-          progressBar.style.width = '100%';
           drawThreads();
           return;
         }
 
         cards.forEach(c => c.classList.remove('animate-pop'));
-        progressBar.style.width = '0%';
         drawThreads();
 
         const stepDelay = 700;
@@ -2611,8 +2531,6 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
         cards.forEach((card, idx) => {
           const tCard = setTimeout(() => {
             card.classList.add('animate-pop');
-            const progressPct = Math.round(((idx + 1) / cards.length) * 100);
-            progressBar.style.width = progressPct + '%';
 
             if (idx > 0) {
               const threadIdx = idx - 1;
@@ -2627,13 +2545,6 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
           }, idx * stepDelay);
 
           animationTimeouts.push(tCard);
-        });
-      }
-
-      if (replayBtn) {
-        replayBtn.addEventListener('click', function () {
-          hasAnimatedOnce = false;
-          animateSequence();
         });
       }
 
