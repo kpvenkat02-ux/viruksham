@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "Viruksham (AMFI-Registered Mutual Fund Distributor) website",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
+    "dev": "node dev-server.js",
+    "start": "node dev-server.js",
     "build": "node build-static.js",
-    "deploy": "node deploy.js",
-    "deploy:vercel": "node build-static.js && npx vercel --prod"
+    "deploy": "node deploy.js"
   },
   "keywords": [
     "mutual-funds",
