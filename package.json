@@ -2,8 +2,10 @@
   "name": "viruksham",
   "version": "1.0.0",
   "description": "Viruksham (AMFI-Registered Mutual Fund Distributor) website",
+  "main": "index.js",
   "scripts": {
     "dev": "node dev-server.js",
+    "start": "node index.js",
     "build": "node build-static.js",
     "deploy": "node deploy.js"
   },
