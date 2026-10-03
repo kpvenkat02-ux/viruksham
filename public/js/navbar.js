@@ -255,6 +255,21 @@
         statCounters.forEach(el => animateStat(el));
       }
     }
+    // 4. Ensure Resources menu contains "Information & Updates"
+    const resMenus = document.querySelectorAll('.header__NavMenu-sc-347dc4f8-12 ul, .header__DrawerSubList-sc-347dc4f8-15');
+    resMenus.forEach(menu => {
+      const links = Array.from(menu.querySelectorAll('a'));
+      const hasInfo = links.some(a => (a.getAttribute('href') || '').includes('/information'));
+      if (!hasInfo) {
+        const mediaLink = links.find(a => (a.getAttribute('href') || '').includes('/media'));
+        if (mediaLink && mediaLink.parentElement) {
+          const li = document.createElement('li');
+          const isMobile = menu.classList.contains('header__DrawerSubList-sc-347dc4f8-15');
+          li.innerHTML = `<a class="${isMobile ? 'header__DrawerSubLink-sc-347dc4f8-16 eMbvMJ' : 'header__NavMenuLink-sc-347dc4f8-14 hFZCOZ'}" href="/information">Information &amp; Updates</a>`;
+          mediaLink.parentElement.before(li);
+        }
+      }
+    });
   }
 
   if (document.readyState === 'loading') {

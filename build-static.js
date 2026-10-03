@@ -23,7 +23,7 @@ function copyDirRecursive(src, dest) {
 }
 
 const PAGE_NAMES = [
-  'about', 'contact', 'disclaimer', 'disclosure', 'media',
+  'about', 'contact', 'disclaimer', 'disclosure', 'media', 'information',
   'news_lakshya-mutual-fund-launches-lakshya-overnight-fund',
   'article_sip-for-1-crore',
   'article_elss-vs-ppf',

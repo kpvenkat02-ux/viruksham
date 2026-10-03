@@ -204,16 +204,26 @@ function calculateEducation(currentAge, eduAge, costToday, expectedReturn, infla
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
   const urlPath = parsedUrl.pathname;
+  const method = req.method.toUpperCase();
 
-  // 1. API proxy / endpoint handling
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (method === 'OPTIONS') {
+    res.writeHead(204);
+    return res.end();
+  }
+
+  // 1. API proxy / endpoint handling for financial calculators
   if (urlPath.startsWith('/api/')) {
     const remoteUrl = 'https://milan-prism.vercel.app' + req.url;
 
     const sendJson = (data) => {
       if (res.headersSent) return;
       res.writeHead(200, {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json; charset=utf-8'
       });
       res.end(JSON.stringify(data));
     };
@@ -344,7 +354,7 @@ const server = http.createServer((req, res) => {
     return res.end();
   }
   if (urlPath === '/blog' || urlPath.startsWith('/blog/') || urlPath === '/news' || urlPath.startsWith('/news/')) {
-    res.writeHead(302, { 'Location': '/media' });
+    res.writeHead(302, { 'Location': '/information' });
     return res.end();
   }
   if (urlPath === '/' || urlPath === '') {
@@ -379,8 +389,9 @@ const server = http.createServer((req, res) => {
 function startServer(port) {
   server.listen(port, () => {
     console.log(`\n========================================`);
-    console.log(`  Viruksham Clone Server is LIVE!`);
-    console.log(`  URL: http://localhost:${port}`);
+    console.log(`  Viruksham Server is LIVE!`);
+    console.log(`  Website: http://localhost:${port}`);
+    console.log(`  Information & Updates: http://localhost:${port}/information`);
     console.log(`========================================\n`);
   });
 
@@ -399,4 +410,3 @@ if (require.main === module) {
 }
 
 module.exports = server;
-
