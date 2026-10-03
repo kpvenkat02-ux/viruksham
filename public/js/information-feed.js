@@ -20,6 +20,15 @@
     setupEventListeners();
     await checkAuthSession();
     await fetchPosts();
+    checkAdminUrlTrigger();
+  }
+
+  function checkAdminUrlTrigger() {
+    if (window.location.hash === '#admin' || window.location.search.includes('admin=true')) {
+      setTimeout(() => {
+        window.vksOpenLoginModal();
+      }, 200);
+    }
   }
 
   // Check Supabase Auth
@@ -48,10 +57,10 @@
     
     if (currentAdminUser) {
       if (adminBanner) adminBanner.classList.remove('d-none');
-      if (footerLoginBtn) footerLoginBtn.textContent = '🔒 Admin Dashboard (Active)';
+      if (footerLoginBtn) footerLoginBtn.innerHTML = '<span>⚡</span> Admin Dashboard (Active)';
     } else {
       if (adminBanner) adminBanner.classList.add('d-none');
-      if (footerLoginBtn) footerLoginBtn.textContent = '🔒 Admin Login';
+      if (footerLoginBtn) footerLoginBtn.innerHTML = '<span>🔒</span> Admin Login';
     }
   }
 
@@ -236,7 +245,11 @@
   }
 
   // Window Global Handlers for In-Page Modals & CRUD
-  window.vksOpenLoginModal = function () {
+  window.vksOpenLoginModal = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (window.location.hash !== '#admin') {
+      try { history.pushState(null, '', '#admin'); } catch (_) {}
+    }
     if (currentAdminUser) {
       window.vksOpenPostModal();
       return;
@@ -248,7 +261,16 @@
   window.vksCloseLoginModal = function () {
     const modal = document.getElementById('adminLoginModal');
     if (modal) modal.classList.remove('is-active');
+    if (window.location.hash === '#admin') {
+      try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (_) {}
+    }
   };
+
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#admin') {
+      window.vksOpenLoginModal();
+    }
+  });
 
   window.vksHandleLogin = async function (e) {
     e.preventDefault();

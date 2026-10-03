@@ -2,6 +2,7 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/admin", "destination": "/information#admin", "permanent": false },
     { "source": "/mutual-funds", "destination": "/services#mutual-funds", "permanent": true },
     { "source": "/blog", "destination": "/media", "permanent": true },
     { "source": "/news", "destination": "/media", "permanent": true },

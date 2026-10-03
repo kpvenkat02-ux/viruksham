@@ -32,6 +32,7 @@ const PAGE_NAMES = [
 ];
 
 const ROUTE_ALIASES = {
+  '/admin': 'information.html#admin',
   '/mutual-funds': 'services.html#mutual-funds',
   '/blog': 'media.html',
   '/news': 'media.html',
