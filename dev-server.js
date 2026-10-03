@@ -357,10 +357,10 @@ const server = http.createServer((req, res) => {
     res.writeHead(302, { 'Location': '/information' });
     return res.end();
   }
-  if (urlPath === '/' || urlPath === '') {
+  if (urlPath === '/' || urlPath === '' || urlPath === '/index.html') {
     pageFilename = 'index.html';
   } else {
-    const cleanRoute = urlPath.replace(/^\//, '').replace(/\/$/, '');
+    const cleanRoute = urlPath.replace(/^\//, '').replace(/\/$/, '').replace(/\.html$/, '');
     const candidate1 = cleanRoute.replace(/\//g, '_') + '.html';
     const candidate2 = cleanRoute + '.html';
     
