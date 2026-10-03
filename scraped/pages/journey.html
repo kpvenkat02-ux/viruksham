@@ -273,9 +273,8 @@
       text-align: center;
       cursor: pointer;
       user-select: none;
-      opacity: 0;
-      transform: translateY(34px) scale(0.9);
-      filter: blur(8px);
+      opacity: 1;
+      transform: translateY(0) scale(1);
       transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
@@ -329,31 +328,6 @@
       box-shadow: 0 4px 14px rgba(251, 191, 36, 0.4);
     }
 
-    /* Expanding Pulse Ring for Badge */
-    .roadmap-badge-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .roadmap-card.animate-enter .roadmap-badge-ring {
-      animation: badgePulse 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s 1;
-    }
-
-    .roadmap-card.theme-blue-mint .roadmap-badge-ring {
-      border: 2px solid #38bdf8;
-    }
-    .roadmap-card.theme-gold-amber .roadmap-badge-ring {
-      border: 2px solid #fbbf24;
-    }
-
-    @keyframes badgePulse {
-      0% { transform: scale(0.9); opacity: 0.9; }
-      100% { transform: scale(2.1); opacity: 0; }
-    }
-
     .roadmap-card-title {
       font-size: clamp(.95rem, 1.25vw, 1.12rem);
       font-weight: 700;
@@ -369,14 +343,6 @@
       margin: 0;
     }
 
-    /* Motion Entrance */
-    .roadmap-card.animate-enter {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, filter 0.7s ease;
-    }
-
     /* SVG Thread Path & Animated Flowing Dash */
     .roadmap-thread-base {
       fill: none;
@@ -384,7 +350,6 @@
       stroke-width: 2.5;
       stroke-linecap: round;
       filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
-      transition: stroke-dashoffset 0.7s ease-out;
     }
 
     .roadmap-thread-flow {
@@ -407,15 +372,9 @@
       fill: #0c1a44;
       stroke: url(#threadGrad);
       stroke-width: 2.5;
-      opacity: 0;
-      transform-origin: center;
-      transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
-    }
-
-    .roadmap-knot-ring.is-visible {
       opacity: 1;
-      transform: scale(1);
+      transform-origin: center;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
     }
 
     /* Legend at Bottom */
@@ -519,27 +478,8 @@
 
     /* Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
-      .roadmap-card {
-        opacity: 1 !important;
-        transform: none !important;
-        filter: none !important;
-        transition: none !important;
-      }
-      .roadmap-thread-base {
-        stroke-dashoffset: 0 !important;
-        transition: none !important;
-      }
       .roadmap-thread-flow {
         animation: none !important;
-      }
-      .roadmap-knot-ring {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-      }
-      .roadmap-progress-fill {
-        width: 100% !important;
-        transition: none !important;
       }
     }
   </style>
@@ -558,16 +498,6 @@
       <div class="roadmap-pill">INVESTOR ROADMAP</div>
       <h2 class="roadmap-title">Your mutual fund journey</h2>
       <p class="roadmap-sub">A structured, 7-step roadmap from initial onboarding to disciplined wealth compounding.</p>
-      
-      <div class="roadmap-actions-row">
-        <div class="roadmap-progress-track" title="Journey Progress">
-          <div class="roadmap-progress-fill" id="roadmapProgressFill"></div>
-        </div>
-        <button type="button" class="roadmap-replay-btn" id="roadmapReplayBtn" aria-label="Replay roadmap animation">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-          Replay
-        </button>
-      </div>
     </header>
 
     <!-- Horizontal Scroll Row -->
@@ -595,70 +525,49 @@
 
         <!-- Step 1 (Blue-Mint) -->
         <div class="roadmap-card theme-blue-mint" data-step="1" tabindex="0" role="button" aria-label="Step 1: KYC and onboarding">
-          <div class="roadmap-badge">
-            1
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">1</div>
           <h3 class="roadmap-card-title">KYC and onboarding</h3>
           <p class="roadmap-card-sub">PAN, Aadhaar, bank mandate</p>
         </div>
 
         <!-- Step 2 (Blue-Mint) -->
         <div class="roadmap-card theme-blue-mint" data-step="2" tabindex="0" role="button" aria-label="Step 2: Goals and risk profile">
-          <div class="roadmap-badge">
-            2
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">2</div>
           <h3 class="roadmap-card-title">Goals and risk profile</h3>
           <p class="roadmap-card-sub">Know your investor</p>
         </div>
 
         <!-- Step 3 (Blue-Mint) -->
         <div class="roadmap-card theme-blue-mint" data-step="3" tabindex="0" role="button" aria-label="Step 3: Asset allocation">
-          <div class="roadmap-badge">
-            3
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">3</div>
           <h3 class="roadmap-card-title">Asset allocation</h3>
           <p class="roadmap-card-sub">Equity, debt, gold mix</p>
         </div>
 
         <!-- Step 4 (Gold-Amber) -->
         <div class="roadmap-card theme-gold-amber" data-step="4" tabindex="0" role="button" aria-label="Step 4: Fund selection">
-          <div class="roadmap-badge">
-            4
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">4</div>
           <h3 class="roadmap-card-title">Fund selection</h3>
           <p class="roadmap-card-sub">Schemes matched to goals</p>
         </div>
 
         <!-- Step 5 (Gold-Amber) -->
         <div class="roadmap-card theme-gold-amber" data-step="5" tabindex="0" role="button" aria-label="Step 5: Start investing">
-          <div class="roadmap-badge">
-            5
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">5</div>
           <h3 class="roadmap-card-title">Start investing</h3>
           <p class="roadmap-card-sub">SIP or lump sum</p>
         </div>
 
         <!-- Step 6 (Gold-Amber) -->
         <div class="roadmap-card theme-gold-amber" data-step="6" tabindex="0" role="button" aria-label="Step 6: Monitor and review">
-          <div class="roadmap-badge">
-            6
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">6</div>
           <h3 class="roadmap-card-title">Monitor and review</h3>
           <p class="roadmap-card-sub">Periodic performance check</p>
         </div>
 
         <!-- Step 7 (Gold-Amber) -->
         <div class="roadmap-card theme-gold-amber" data-step="7" tabindex="0" role="button" aria-label="Step 7: Rebalance, reach goals">
-          <div class="roadmap-badge">
-            7
-            <span class="roadmap-badge-ring"></span>
-          </div>
+          <div class="roadmap-badge">7</div>
           <h3 class="roadmap-card-title">Rebalance, reach goals</h3>
           <p class="roadmap-card-sub">Stay on track</p>
         </div>
@@ -760,27 +669,15 @@
       const grid = document.getElementById('roadmapGrid');
       const svg = document.getElementById('roadmapSvgOverlay');
       const cards = Array.from(grid.querySelectorAll('.roadmap-card'));
-      const replayBtn = document.getElementById('roadmapReplayBtn');
-      const progressFill = document.getElementById('roadmapProgressFill');
       const modal = document.getElementById('roadmapModal');
       const modalClose = document.getElementById('roadmapModalClose');
       const modalContent = document.getElementById('roadmapModalContent');
 
-      let timeouts = [];
-      let isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let hasAnimated = false;
-
-      function clearAll() {
-        timeouts.forEach(t => clearTimeout(t));
-        timeouts = [];
-      }
-
       // Draw Alternating Thread Arcs (Above/Below) with Traveling Particles
       function drawThreads() {
         if (!grid || !svg) return;
-        const gridRect = grid.getBoundingClientRect();
-        const width = grid.scrollWidth || gridRect.width;
-        const height = gridRect.height;
+        const width = grid.scrollWidth;
+        const height = grid.offsetHeight;
         svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
         // Remove previous generated paths & knots (preserve defs)
@@ -792,24 +689,23 @@
         for (let i = 0; i < cards.length - 1; i++) {
           const c1 = cards[i];
           const c2 = cards[i + 1];
-          const r1 = c1.getBoundingClientRect();
-          const r2 = c2.getBoundingClientRect();
 
-          const x1 = (r1.left + r1.right) / 2 - gridRect.left;
-          const x2 = (r2.left + r2.right) / 2 - gridRect.left;
+          // Use offset layout coordinates for rock-solid stability
+          const x1 = c1.offsetLeft + c1.offsetWidth / 2;
+          const x2 = c2.offsetLeft + c2.offsetWidth / 2;
 
           let y1, y2, d, knotY;
 
           if (i % 2 === 0) {
             // Even index (1->2, 3->4, 5->6): Arch ABOVE from top-center to top-center
-            y1 = r1.top - gridRect.top;
-            y2 = r2.top - gridRect.top;
+            y1 = c1.offsetTop;
+            y2 = c2.offsetTop;
             d = `M ${x1} ${y1} C ${x1} ${y1 - arcHeight}, ${x2} ${y2 - arcHeight}, ${x2} ${y2}`;
             knotY = y2;
           } else {
             // Odd index (2->3, 4->5, 6->7): Arch BELOW from bottom-center to bottom-center
-            y1 = r1.bottom - gridRect.top;
-            y2 = r2.bottom - gridRect.top;
+            y1 = c1.offsetTop + c1.offsetHeight;
+            y2 = c2.offsetTop + c2.offsetHeight;
             d = `M ${x1} ${y1} C ${x1} ${y1 + arcHeight}, ${x2} ${y2 + arcHeight}, ${x2} ${y2}`;
             knotY = y2;
           }
@@ -847,7 +743,7 @@
           knot.setAttribute('cx', x2);
           knot.setAttribute('cy', knotY);
           knot.setAttribute('r', '7');
-          knot.setAttribute('class', 'roadmap-knot-ring');
+          knot.setAttribute('class', 'roadmap-knot-ring is-visible');
           knot.id = `knot-ring-${i}`;
 
           group.appendChild(path);
@@ -855,63 +751,7 @@
           group.appendChild(dot);
           group.appendChild(knot);
           svg.appendChild(group);
-
-          const pathLen = path.getTotalLength();
-          path.style.strokeDasharray = pathLen;
-          if (isReducedMotion || hasAnimated) {
-            path.style.strokeDashoffset = '0';
-            knot.classList.add('is-visible');
-          } else {
-            path.style.strokeDashoffset = pathLen;
-          }
         }
-      }
-
-      function playAnimation() {
-        clearAll();
-        hasAnimated = true;
-        isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        if (isReducedMotion) {
-          cards.forEach(c => c.classList.add('animate-enter'));
-          if (progressFill) progressFill.style.width = '100%';
-          drawThreads();
-          return;
-        }
-
-        cards.forEach(c => c.classList.remove('animate-enter'));
-        if (progressFill) progressFill.style.width = '0%';
-        drawThreads();
-
-        const stepDelay = 750;
-
-        cards.forEach((card, idx) => {
-          const tCard = setTimeout(() => {
-            card.classList.add('animate-enter');
-            const progress = Math.round(((idx + 1) / cards.length) * 100);
-            if (progressFill) progressFill.style.width = progress + '%';
-
-            if (idx > 0) {
-              const threadIdx = idx - 1;
-              const path = document.getElementById(`thread-base-${threadIdx}`);
-              const knot = document.getElementById(`knot-ring-${threadIdx}`);
-              if (path) path.style.strokeDashoffset = '0';
-              const tKnot = setTimeout(() => {
-                if (knot) knot.classList.add('is-visible');
-              }, 450);
-              timeouts.push(tKnot);
-            }
-          }, idx * stepDelay);
-
-          timeouts.push(tCard);
-        });
-      }
-
-      if (replayBtn) {
-        replayBtn.addEventListener('click', () => {
-          hasAnimated = false;
-          playAnimation();
-        });
       }
 
       function openModal(stepNum) {
@@ -977,35 +817,17 @@
         });
       });
 
+      // Initial draw and window load/resize listeners
+      drawThreads();
+      window.addEventListener('load', drawThreads);
+
       let resizeTimer;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
           drawThreads();
-        }, 100);
+        }, 60);
       });
-
-      const scrollWrap = document.querySelector('.roadmap-scroll-wrap');
-      if (scrollWrap) {
-        scrollWrap.addEventListener('scroll', () => {
-          drawThreads();
-        }, { passive: true });
-      }
-
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting && !hasAnimated) {
-              playAnimation();
-            }
-          });
-        }, { threshold: 0.15 });
-
-        const roadmapSection = document.getElementById('roadmap');
-        if (roadmapSection) observer.observe(roadmapSection);
-      } else {
-        playAnimation();
-      }
 
     })();
   </script>
