@@ -1,6 +1,7 @@
 {
   "outputDirectory": "dist",
   "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     { "source": "/admin", "destination": "/information#admin", "permanent": false },
     { "source": "/mutual-funds", "destination": "/services#mutual-funds", "permanent": true },
