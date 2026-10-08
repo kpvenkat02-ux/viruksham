@@ -8,15 +8,34 @@
 
   async function loadDynamicPosts() {
     try {
-      const response = await fetch('/api/posts?limit=100');
-      if (!response.ok) return;
+      let allPosts = [];
 
-      const result = await response.json();
-      if (result.status !== 'ok' || !Array.isArray(result.posts) || result.posts.length === 0) {
+      // 1. If Supabase client is available, fetch live posts
+      if (window.vksSupabase) {
+        const { data, error } = await window.vksSupabase
+          .from('information_posts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(100);
+        if (!error && Array.isArray(data) && data.length > 0) {
+          allPosts = data;
+        }
+      }
+
+      // 2. Check local fallback cache if any
+      if (allPosts.length === 0) {
+        try {
+          const cached = localStorage.getItem('vks_cached_posts');
+          if (cached) {
+            allPosts = JSON.parse(cached);
+          }
+        } catch (e) {}
+      }
+
+      if (!Array.isArray(allPosts) || allPosts.length === 0) {
         return;
       }
 
-      const allPosts = result.posts;
       const articles = allPosts.filter(p => p.category === 'article' || p.category === 'news');
       const videos = allPosts.filter(p => p.category === 'video');
 
@@ -27,7 +46,7 @@
         renderDynamicVideos(videos);
       }
     } catch (err) {
-      console.warn('[Viruksham] Dynamic posts loader fallback to static:', err.message);
+      // Fallback silently to static HTML cards
     }
   }
 

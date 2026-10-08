@@ -216,17 +216,25 @@ const server = http.createServer((req, res) => {
     return res.end();
   }
 
-  // 1. API proxy / endpoint handling for financial calculators
-  if (urlPath.startsWith('/api/')) {
-    const remoteUrl = 'https://milan-prism.vercel.app' + req.url;
+  // Log requests in dev server
+  const startTime = Date.now();
 
-    const sendJson = (data) => {
+  // 1. API proxy / endpoint handling
+  if (urlPath.startsWith('/api/')) {
+    const sendJson = (data, statusCode = 200) => {
       if (res.headersSent) return;
-      res.writeHead(200, {
+      res.writeHead(statusCode, {
         'Content-Type': 'application/json; charset=utf-8'
       });
       res.end(JSON.stringify(data));
+      console.log(`[API] ${req.method} ${urlPath} -> ${statusCode} (${Date.now() - startTime}ms)`);
     };
+
+    if (urlPath === '/api/posts') {
+      return sendJson({ status: "ok", posts: [] });
+    }
+
+    const remoteUrl = 'https://milan-prism.vercel.app' + req.url;
 
     function handleLocalApiFallback() {
       const op = parsedUrl.searchParams.get('op');
