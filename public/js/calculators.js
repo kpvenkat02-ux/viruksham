@@ -667,17 +667,27 @@
     });
 
     // Check URL Hash for deep link
-    const hash = window.location.hash.replace('#', '');
-    if (hash && Calculators[hash]) {
-      calcState.activeTab = hash;
-      tabs.forEach(t => {
-        const text = t.textContent.trim();
-        if (tabMap[text] === hash) {
-          tabs.forEach(other => other.setAttribute('aria-selected', 'false'));
-          t.setAttribute('aria-selected', 'true');
-        }
-      });
+    function applyHash() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && Calculators[hash]) {
+        calcState.activeTab = hash;
+        tabs.forEach(t => {
+          const text = t.textContent.trim();
+          if (tabMap[text] === hash) {
+            tabs.forEach(other => {
+              other.setAttribute('aria-selected', 'false');
+              other.classList.remove('active');
+            });
+            t.setAttribute('aria-selected', 'true');
+            t.classList.add('active');
+          }
+        });
+        updateActivePanel();
+      }
     }
+
+    window.addEventListener('hashchange', applyHash);
+    applyHash();
   }
 
   // Setup DOM Structure for Calculators
