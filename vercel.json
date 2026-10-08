@@ -1,12 +1,42 @@
 {
   "outputDirectory": "dist",
-  "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    { "source": "/admin", "destination": "/information#admin", "permanent": false },
-    { "source": "/mutual-funds", "destination": "/services#mutual-funds", "permanent": true },
-    { "source": "/blog", "destination": "/media", "permanent": true },
-    { "source": "/news", "destination": "/media", "permanent": true },
-    { "source": "/research", "destination": "/services", "permanent": true }
+  "routes": [
+    {
+      "src": "^/admin$",
+      "status": 307,
+      "headers": { "Location": "/information#admin" }
+    },
+    {
+      "src": "^/mutual-funds$",
+      "status": 308,
+      "headers": { "Location": "/services#mutual-funds" }
+    },
+    {
+      "src": "^/blog$",
+      "status": 308,
+      "headers": { "Location": "/media" }
+    },
+    {
+      "src": "^/news$",
+      "status": 308,
+      "headers": { "Location": "/media" }
+    },
+    {
+      "src": "^/research$",
+      "status": 308,
+      "headers": { "Location": "/services" }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "^/([a-zA-Z0-9_-]+)$",
+      "dest": "/$1.html"
+    },
+    {
+      "src": "^/$",
+      "dest": "/index.html"
+    }
   ]
 }
