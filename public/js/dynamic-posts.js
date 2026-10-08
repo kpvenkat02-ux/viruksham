@@ -10,14 +10,24 @@
     try {
       let allPosts = [];
 
-      // 1. If Supabase client is available, fetch live posts
+      // 1. If Supabase client is available, fetch live posts from 'posts' table
       if (window.vksSupabase) {
-        const { data, error } = await window.vksSupabase
-          .from('information_posts')
+        let { data, error } = await window.vksSupabase
+          .from('posts')
           .select('*')
           .order('created_at', { ascending: false })
           .limit(100);
-        if (!error && Array.isArray(data) && data.length > 0) {
+        if (error || !data || data.length === 0) {
+          const fallbackRes = await window.vksSupabase
+            .from('information_posts')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(100);
+          if (!fallbackRes.error && fallbackRes.data) {
+            data = fallbackRes.data;
+          }
+        }
+        if (Array.isArray(data) && data.length > 0) {
           allPosts = data;
         }
       }
