@@ -200,14 +200,21 @@
     }
 
     // 3. Highlight current active page link automatically
-    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    const pathName = window.location.pathname.toLowerCase();
+    const cleanCurrent = pathName.split('/').filter(Boolean).pop()?.replace('.html', '') || 'index';
+    const isHome = cleanCurrent === '' || cleanCurrent === 'index';
+
     const allNavLinks = document.querySelectorAll('.header__NavItem-sc-347dc4f8-17, .header__DrawerItem-sc-347dc4f8-27');
     allNavLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href && (href === currentPath || (currentPath !== '/' && href !== '/' && currentPath.startsWith(href)))) {
+      const rawHref = (link.getAttribute('href') || '').toLowerCase();
+      const hrefTarget = rawHref.split('/').filter(Boolean).pop()?.replace('.html', '') || 'index';
+      
+      link.removeAttribute('aria-current');
+
+      if (isHome && (hrefTarget === 'index' || rawHref === '/' || rawHref === './' || rawHref.includes('index'))) {
         link.setAttribute('aria-current', 'page');
-      } else if (href && href !== currentPath) {
-        link.removeAttribute('aria-current');
+      } else if (!isHome && (hrefTarget === cleanCurrent || rawHref.includes('/' + cleanCurrent))) {
+        link.setAttribute('aria-current', 'page');
       }
     });
 

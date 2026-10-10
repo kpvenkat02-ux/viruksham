@@ -95,6 +95,59 @@ function createRedirectHtml(targetUrl) {
 </html>`;
 }
 
+function createSmart404Html() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Viruksham Finmart</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    (function() {
+      var path = window.location.pathname;
+      var clean = path.replace(/^\\/+|\\/+$/g, '');
+      var search = window.location.search || '';
+      var hash = window.location.hash || '';
+
+      var knownPages = [
+        'about', 'services', 'tools', 'information', 'media', 'contact',
+        'article_sip-for-1-crore', 'article_elss-vs-ppf', 'article_regular-vs-direct-mutual-funds',
+        'privacy', 'terms', 'disclaimer', 'disclosure', 'journey'
+      ];
+
+      for (var i = 0; i < knownPages.length; i++) {
+        if (clean === knownPages[i] || clean === knownPages[i] + '/') {
+          window.location.replace('/' + knownPages[i] + '.html' + search + hash);
+          return;
+        }
+      }
+
+      if (clean === 'admin') {
+        window.location.replace('/information.html#admin');
+        return;
+      }
+      if (clean === 'mutual-funds') {
+        window.location.replace('/services.html#mutual-funds');
+        return;
+      }
+      if (clean === 'blog' || clean === 'news') {
+        window.location.replace('/media.html');
+        return;
+      }
+
+      window.location.replace('/index.html' + search + hash);
+    })();
+  </script>
+</head>
+<body>
+  <div style="font-family: sans-serif; text-align: center; padding: 60px 20px;">
+    <h2>Loading Viruksham Finmart...</h2>
+    <p>If you are not redirected automatically, <a href="/index.html">click here to return home</a>.</p>
+  </div>
+</body>
+</html>`;
+}
+
 function build() {
   console.log('--- Building static distribution for GitHub Pages ---');
   if (fs.existsSync(DIST_DIR)) {
@@ -108,7 +161,7 @@ function build() {
     copyDirRecursive(PUBLIC_DIR, DIST_DIR);
   }
 
-  // 2. Copy and transform scraped pages as root and nested HTML files
+  // 2. Copy and transform scraped pages as root and nested directory HTML files
   if (fs.existsSync(PAGES_DIR)) {
     console.log('Transforming and copying pages from scraped/pages to dist/...');
     const pages = fs.readdirSync(PAGES_DIR);
@@ -121,6 +174,17 @@ function build() {
         const rootContent = fixPathsForGhPages(rawContent, 0);
         const pageDest = path.join(DIST_DIR, page);
         fs.writeFileSync(pageDest, rootContent, 'utf8');
+
+        // Nested directory route for clean URLs (e.g. /about -> /about/index.html)
+        const baseName = page.replace('.html', '');
+        if (baseName !== 'index') {
+          const nestedDir = path.join(DIST_DIR, baseName);
+          if (!fs.existsSync(nestedDir)) {
+            fs.mkdirSync(nestedDir, { recursive: true });
+          }
+          const nestedContent = fixPathsForGhPages(rawContent, 1);
+          fs.writeFileSync(path.join(nestedDir, 'index.html'), nestedContent, 'utf8');
+        }
       }
     }
   }
@@ -131,17 +195,13 @@ function build() {
     fs.writeFileSync(path.join(DIST_DIR, `${routeName}.html`), createRedirectHtml(`./${target}`), 'utf8');
   }
 
-  // 4. Create 404.html (using transformed index.html)
-  const indexSrc = path.join(DIST_DIR, 'index.html');
-  if (fs.existsSync(indexSrc)) {
-    fs.copyFileSync(indexSrc, path.join(DIST_DIR, '404.html'));
-  }
+  // 4. Create smart 404.html router
+  fs.writeFileSync(path.join(DIST_DIR, '404.html'), createSmart404Html(), 'utf8');
 
-  // 5. Create .nojekyll (CRITICAL for GitHub Pages to serve _next/ folder)
+  // 5. Create .nojekyll (CRITICAL for GitHub Pages)
   fs.writeFileSync(path.join(DIST_DIR, '.nojekyll'), '', 'utf8');
 
-  console.log('✅ Static build complete with relative paths! Output directory: dist/');
+  console.log('✅ Static build complete with root, nested routes and smart 404 router! Output directory: dist/');
 }
 
 build();
-
