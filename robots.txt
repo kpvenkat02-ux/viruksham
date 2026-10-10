@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://virukshamfin.com
+Sitemap: https://virukshamfin.com/sitemap.xml

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Viruksham Finmart</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    (function() {
+      var path = window.location.pathname;
+      var clean = path.replace(/^\/+|\/+$/g, '');
+      var search = window.location.search || '';
+      var hash = window.location.hash || '';
+
+      var knownPages = [
+        'about', 'services', 'tools', 'information', 'media', 'contact',
+        'article_sip-for-1-crore', 'article_elss-vs-ppf', 'article_regular-vs-direct-mutual-funds',
+        'privacy', 'terms', 'disclaimer', 'disclosure', 'journey'
+      ];
+
+      for (var i = 0; i < knownPages.length; i++) {
+        if (clean === knownPages[i] || clean === knownPages[i] + '/') {
+          window.location.replace('/' + knownPages[i] + '.html' + search + hash);
+          return;
+        }
+      }
+
+      if (clean === 'admin') {
+        window.location.replace('/information.html#admin');
+        return;
+      }
+      if (clean === 'mutual-funds') {
+        window.location.replace('/services.html#mutual-funds');
+        return;
+      }
+      if (clean === 'blog' || clean === 'news') {
+        window.location.replace('/media.html');
+        return;
+      }
+
+      window.location.replace('/index.html' + search + hash);
+    })();
+  </script>
+</head>
+<body>
+  <div style="font-family: sans-serif; text-align: center; padding: 60px 20px;">
+    <h2>Loading Viruksham Finmart...</h2>
+    <p>If you are not redirected automatically, <a href="/index.html">click here to return home</a>.</p>
+  </div>
+</body>
+</html>

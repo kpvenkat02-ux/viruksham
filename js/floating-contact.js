@@ -1,0 +1,3 @@
+/**
+ * Floating Contact Widget disabled
+ */
