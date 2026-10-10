@@ -360,8 +360,8 @@
     .btn-card-edit:hover { background: #E0E7FF; color: #012F6A; }
     .btn-card-del:hover { background: #FEE2E2; color: #DC2626; }
 
-    /* Video Thumbnail inside card */
-    .info-video-thumb {
+    /* Media Thumbnail inside card (Article & Video) */
+    .info-thumb-box, .info-video-thumb, .info-article-thumb {
       position: relative;
       aspect-ratio: 16 / 9;
       border-radius: 12px;
@@ -369,15 +369,35 @@
       margin-bottom: 14px;
       background: #000;
       cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.06);
     }
-    .info-video-thumb img {
+    .info-thumb-box img, .info-video-thumb img, .info-article-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      display: block;
+      transition: transform 0.4s ease;
     }
-    .info-card:hover .info-video-thumb img {
+    .info-card:hover .info-thumb-box img,
+    .info-card:hover .info-video-thumb img,
+    .info-card:hover .info-article-thumb img {
       transform: scale(1.05);
+    }
+    .info-thumb-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(1, 47, 106, 0.88);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 2;
     }
     .info-play-overlay {
       position: absolute;
@@ -392,6 +412,7 @@
       justify-content: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       transition: transform 0.2s ease;
+      z-index: 2;
     }
     .info-card:hover .info-play-overlay {
       transform: scale(1.12);
@@ -658,11 +679,7 @@
           <div class="header__NavGroup-sc-347dc4f8-9 cPjdff">
             <button type="button" aria-expanded="false" aria-haspopup="true" class="header__NavTrigger-sc-347dc4f8-10 cribYf" style="color:var(--color-ink);">Resources<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="header__NavCaret-sc-347dc4f8-11 jFouUX" height="14" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m6 9 6 6 6-6"></path></svg></button>
             <div class="header__NavMenu-sc-347dc4f8-12 iknnAw">
-              <ul class="header__NavMenuList-sc-347dc4f8-13 dHqpHk">
-                <li><a class="header__NavMenuLink-sc-347dc4f8-14 hFZCOZ" href="/information" style="font-weight:700;color:#012F6A;">Information &amp; Updates</a></li>
-                <li><a class="header__NavMenuLink-sc-347dc4f8-14 hFZCOZ" href="/media">Media</a></li>
-                <li><a class="header__NavMenuLink-sc-347dc4f8-14 hFZCOZ" href="/services#mutual-funds">Mutual Funds</a></li>
-              </ul>
+              <ul class="header__NavMenuList-sc-347dc4f8-13 dHqpHk"><li><a class="header__NavMenuLink-sc-347dc4f8-14 hFZCOZ" href="/information">Information &amp; Updates</a></li><li><a class="header__NavMenuLink-sc-347dc4f8-14 hFZCOZ" href="/media">Media</a></li></ul>
             </div>
           </div>
           <div class="header__NavGroup-sc-347dc4f8-9 cPjdff"><a class="header__NavItem-sc-347dc4f8-17 gMrweL" href="/contact">Contact<span aria-hidden="true" class="header__Underline-sc-347dc4f8-8 fIJrJI"></span></a></div>
@@ -920,6 +937,14 @@
           <div class="vks-form-group">
             <label class="vks-form-label" for="postFormDesc">Description / Summary</label>
             <textarea id="postFormDesc" class="vks-textarea" rows="3" placeholder="Brief summary of what this information covers..."></textarea>
+          </div>
+
+          <div class="vks-form-group">
+            <label class="vks-form-label" for="postFormImage">Image / Thumbnail URL <span style="font-size:12px; font-weight:normal; color:#6B7280;">(Auto-fetched from link if available)</span></label>
+            <input type="url" id="postFormImage" class="vks-input" placeholder="https://... or paste image URL" />
+            <div id="postFormImagePreview" style="display:none; margin-top:8px; border-radius:8px; overflow:hidden; max-height:120px; aspect-ratio:16/9; background:#000;">
+              <img id="postFormImagePreviewImg" src="" alt="Preview" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
           </div>
 
           <div class="vks-form-row">

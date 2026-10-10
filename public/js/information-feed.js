@@ -11,7 +11,14 @@
   let activeCategory = 'all';
   let activeSearch = '';
 
-  // No hardcoded content - only display admin uploads from Supabase
+  // Known article image registry / smart extractor for articles
+  const KNOWN_ARTICLE_IMAGES = {
+    'mutual-fund-selection-guidance': 'https://gumlet.vikatan.com/vikatan%2F2026-10-05%2Fqf9ixkzi%2Fimg1_crop_16x9_0_0_10000_8055.jpg?rect=0%2C0%2C2009%2C1055&w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100',
+    'guidance-for-inflation-based-income-investments': 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=80',
+    'a-new-opportunity-to-invest-in-metal': 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=80',
+    'kee-pi-vengkttraamkirussnnnnn': 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80'
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     initApp();
   });
@@ -137,12 +144,33 @@
     return match ? match[1] : null;
   }
 
+  function resolvePostImage(post) {
+    if (post.image_url && post.image_url.trim()) {
+      return post.image_url.trim();
+    }
+    const isVideo = post.category === 'video' || (post.link && post.link.includes('youtube'));
+    const ytId = extractYouTubeId(post.link);
+    if (isVideo && ytId) {
+      return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+    }
+
+    if (post.link) {
+      for (const [key, img] of Object.entries(KNOWN_ARTICLE_IMAGES)) {
+        if (post.link.includes(key)) {
+          return img;
+        }
+      }
+    }
+    return '';
+  }
+
   function buildPostCard(post) {
     const isVideo = post.category === 'video' || (post.link && post.link.includes('youtube'));
     const ytId = extractYouTubeId(post.link);
     const dateStr = post.created_at ? new Date(post.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
     const source = post.source || (isVideo ? 'YouTube' : 'Viruksham Insights');
     const badgeClass = isVideo ? 'badge-video' : (post.category === 'news' ? 'badge-news' : 'badge-article');
+    const imageUrl = resolvePostImage(post);
 
     // Admin Action Buttons
     const adminControls = currentAdminUser ? `
@@ -152,13 +180,25 @@
       </div>
     ` : '';
 
-    // Video Thumbnail Box
-    const videoThumbBox = (isVideo && ytId) ? `
-      <div class="info-video-thumb" onclick="window.vksPlayVideo('${escapeJs(ytId)}', '${escapeJs(post.title)}')">
-        <img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt="${escapeHtml(post.title)}" loading="lazy" />
-        <div class="info-play-overlay"><div class="info-play-icon"></div></div>
-      </div>
-    ` : '';
+    // Media Thumbnail Box (Both Article & Video)
+    let mediaThumbHtml = '';
+    if (isVideo && ytId) {
+      const vidImg = imageUrl || `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+      mediaThumbHtml = `
+        <div class="info-thumb-box info-video-thumb" onclick="window.vksPlayVideo('${escapeJs(ytId)}', '${escapeJs(post.title)}')">
+          <img src="${escapeHtml(vidImg)}" alt="${escapeHtml(post.title)}" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg';" />
+          <div class="info-play-overlay"><div class="info-play-icon"></div></div>
+          <span class="info-thumb-badge"><span>▶</span> Video</span>
+        </div>
+      `;
+    } else if (imageUrl) {
+      mediaThumbHtml = `
+        <a href="${escapeHtml(post.link)}" target="_blank" rel="noopener noreferrer" class="info-thumb-box info-article-thumb" style="display:block; text-decoration:none;" aria-label="Open article: ${escapeHtml(post.title)}">
+          <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy" onerror="this.parentElement.style.display='none';" />
+          <span class="info-thumb-badge" style="background:rgba(1, 47, 106, 0.88);"><span>📰</span> ${escapeHtml(source)}</span>
+        </a>
+      `;
+    }
 
     // Action CTA Button
     const actionButton = isVideo ? `
@@ -172,7 +212,7 @@
     `;
 
     return `
-      <div class="info-card ${isVideo ? 'is-video-card' : ''}" id="post-${escapeHtml(post.id)}">
+      <div class="info-card ${isVideo ? 'is-video-card' : ''} ${imageUrl ? 'has-thumb' : ''}" id="post-${escapeHtml(post.id)}">
         <div class="info-card-top">
           <div class="info-card-meta">
             <span class="info-source-badge ${badgeClass}">${escapeHtml(source)}</span>
@@ -181,9 +221,9 @@
           ${adminControls}
         </div>
 
-        ${videoThumbBox}
+        ${mediaThumbHtml}
 
-        <h3 class="info-card-title">${escapeHtml(post.title)}</h3>
+        <h3 class="info-card-title"><a href="${escapeHtml(post.link)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">${escapeHtml(post.title)}</a></h3>
         ${post.description ? `<p class="info-card-desc">${escapeHtml(post.description)}</p>` : ''}
 
         <div class="info-card-footer">
@@ -197,6 +237,25 @@
         </div>
       </div>
     `;
+  }
+
+  function updateImagePreview(url) {
+    const previewBox = document.getElementById('postFormImagePreview');
+    const previewImg = document.getElementById('postFormImagePreviewImg');
+    if (!previewBox || !previewImg) return;
+
+    if (url && url.trim()) {
+      previewImg.src = url.trim();
+      previewImg.onerror = () => {
+        previewBox.style.display = 'none';
+      };
+      previewImg.onload = () => {
+        previewBox.style.display = 'block';
+      };
+    } else {
+      previewBox.style.display = 'none';
+      previewImg.src = '';
+    }
   }
 
   function setupEventListeners() {
@@ -219,24 +278,49 @@
       });
     });
 
-    // Auto source detector on URL input
+    // Image Input preview listener
+    const imgInput = document.getElementById('postFormImage');
+    if (imgInput) {
+      imgInput.addEventListener('input', (e) => {
+        updateImagePreview(e.target.value);
+      });
+    }
+
+    // Auto source & image detector on URL input
     const linkInput = document.getElementById('postFormLink');
     if (linkInput) {
       linkInput.addEventListener('input', (e) => {
-        const url = e.target.value.toLowerCase();
+        const url = e.target.value.trim();
+        const urlLower = url.toLowerCase();
         const catSelect = document.getElementById('postFormCategory');
         const srcInput = document.getElementById('postFormSource');
+        const imgInputEl = document.getElementById('postFormImage');
 
-        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) {
           if (catSelect) catSelect.value = 'video';
           if (srcInput && !srcInput.value) srcInput.value = 'YouTube';
-        } else if (url.includes('vikatan.com')) {
+          const ytId = extractYouTubeId(url);
+          if (ytId && imgInputEl && !imgInputEl.value) {
+            imgInputEl.value = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+            updateImagePreview(imgInputEl.value);
+          }
+        } else if (urlLower.includes('vikatan.com')) {
           if (catSelect) catSelect.value = 'article';
           if (srcInput && !srcInput.value) srcInput.value = 'Vikatan';
-        } else if (url.includes('myreality.co.in')) {
+          for (const [key, img] of Object.entries(KNOWN_ARTICLE_IMAGES)) {
+            if (urlLower.includes(key) && imgInputEl && !imgInputEl.value) {
+              imgInputEl.value = img;
+              updateImagePreview(img);
+            }
+          }
+        } else if (urlLower.includes('myreality.co.in')) {
           if (catSelect) catSelect.value = 'article';
           if (srcInput && !srcInput.value) srcInput.value = 'MyReality';
-        } else if (url.includes('nithimuthaleedu')) {
+          if (imgInputEl && !imgInputEl.value) {
+            imgInputEl.value = 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=80';
+            updateImagePreview(imgInputEl.value);
+          }
+        } else if (urlLower.includes('nithimuthaleedu')) {
           if (catSelect) catSelect.value = 'article';
           if (srcInput && !srcInput.value) srcInput.value = 'Nithi Muthal Eedu';
         }
@@ -326,6 +410,9 @@
 
     form.reset();
     document.getElementById('postFormId').value = '';
+    const imgInputEl = document.getElementById('postFormImage');
+    if (imgInputEl) imgInputEl.value = '';
+    updateImagePreview('');
 
     if (postId) {
       const post = allPosts.find(p => p.id === postId);
@@ -337,6 +424,11 @@
         document.getElementById('postFormLink').value = post.link || '';
         document.getElementById('postFormCategory').value = post.category || 'article';
         document.getElementById('postFormSource').value = post.source || '';
+        const resolvedImg = post.image_url || resolvePostImage(post);
+        if (imgInputEl) {
+          imgInputEl.value = resolvedImg || '';
+          updateImagePreview(resolvedImg);
+        }
       }
     } else {
       titleEl.textContent = 'Upload New Information / Link';
@@ -368,6 +460,8 @@
     const link = document.getElementById('postFormLink').value.trim();
     const category = document.getElementById('postFormCategory').value;
     const source = document.getElementById('postFormSource').value.trim() || 'Viruksham Insights';
+    const imgInputEl = document.getElementById('postFormImage');
+    const image_url = imgInputEl ? imgInputEl.value.trim() : '';
     const btn = document.getElementById('btnPostSubmit');
 
     if (!title || !link) {
@@ -384,6 +478,7 @@
         link,
         category,
         source,
+        image_url,
         updated_at: new Date().toISOString()
       };
 
