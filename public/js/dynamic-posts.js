@@ -6,6 +6,32 @@
 (function () {
   'use strict';
 
+  function resolveArticleImage(post) {
+    if (post.image_url && post.image_url.trim()) {
+      return post.image_url.trim();
+    }
+    const link = (post.link || '').toLowerCase();
+    const source = (post.source || '').toLowerCase();
+    const title = (post.title || '').toLowerCase();
+
+    if (link.includes('inflation') || title.includes('பணவீக்கம்') || title.includes('inflation')) {
+      return 'https://gumlet.assettype.com/vikatan%2F2023-06%2Fb454faae-2b1d-4001-8b21-4f346a0c5c36%2Finflation.jpg';
+    }
+    if (link.includes('metal') || title.includes('metal') || title.includes('மெட்டல்')) {
+      return 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=800&auto=format&fit=crop&q=80';
+    }
+    if (source.includes('vikatan') || link.includes('vikatan')) {
+      return 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=80';
+    }
+    if (source.includes('myreality') || link.includes('myreality')) {
+      return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&auto=format&fit=crop&q=80';
+    }
+    if (source.includes('nithi') || link.includes('nithimuthaleedu')) {
+      return 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80';
+    }
+    return 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=80';
+  }
+
   async function loadDynamicPosts() {
     try {
       let allPosts = [];
@@ -64,15 +90,19 @@
     const articleTrack = document.querySelector('.wr-track-articles');
     if (!articleTrack) return;
 
-    // Helper to build a single article card HTML
+    // Helper to build a single article card HTML with thumbnail image
     function buildArticleCard(post, isDuplicate = false) {
       const source = post.source || 'Viruksham Insights';
       const title = post.title || 'Market Insights';
       const link = post.link || '#';
+      const thumb = resolveArticleImage(post);
       const desc = post.description ? `<p style="font-size:13.5px;color:#6B5A4B;margin-top:6px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHtml(post.description)}</p>` : '';
 
       return `
         <a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="wr-card wr-card-article" aria-label="Read: ${escapeHtml(source)} - ${escapeHtml(title)}" ${isDuplicate ? 'aria-hidden="true" tabindex="-1"' : ''}>
+          <div class="wr-article-thumb-box">
+            <img src="${escapeHtml(thumb)}" alt="${escapeHtml(title)}" class="wr-article-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=80';" />
+          </div>
           <div class="wr-article-top">
             <span class="wr-source-pill">${escapeHtml(source)}</span>
             <h3 class="wr-article-title">${escapeHtml(title)}</h3>
@@ -86,11 +116,9 @@
       `;
     }
 
-    // Generate Set 1 (Originals) + Set 2 (Duplicates for smooth loop)
     let set1Html = articles.map(p => buildArticleCard(p, false)).join('');
     let set2Html = articles.map(p => buildArticleCard(p, true)).join('');
 
-    // If fewer than 5 items, repeat more times so marquee is sufficiently wide
     if (articles.length < 5) {
       set1Html += articles.map(p => buildArticleCard(p, false)).join('');
       set2Html += articles.map(p => buildArticleCard(p, true)).join('');

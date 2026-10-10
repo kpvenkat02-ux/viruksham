@@ -4,3 +4,7 @@ dist/
 Thumbs.db
 *.log
 .vercel
+.env*
+
+.token.local
+scratch/
