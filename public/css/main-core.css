@@ -9,3 +9,36 @@
 .roadmap-header{position:static!important;top:auto!important;background:transparent!important;box-shadow:none!important;border:none!important}
 body{padding-top:64px!important}
 
+/* Footer Twitter / X White Button */
+footer a[title*="Twitter"],
+footer .footer__Socials-sc-9b980077-11 a,
+footer [class*="footer__Socials"] a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #012F6A !important;
+  background: #ffffff !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  text-decoration: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+}
+footer a[title*="Twitter"]:hover,
+footer .footer__Socials-sc-9b980077-11 a:hover,
+footer [class*="footer__Socials"] a:hover {
+  background: #f1f5fa !important;
+  color: #0A4B9C !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+}
+footer a[title*="Twitter"] svg,
+footer .footer__Socials-sc-9b980077-11 a svg,
+footer [class*="footer__Socials"] a svg {
+  fill: currentColor !important;
+  color: inherit !important;
+}
+

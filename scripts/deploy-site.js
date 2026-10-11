@@ -11,7 +11,7 @@ execSync('node build-static.js', { cwd: path.join(__dirname, '..'), stdio: 'inhe
 console.log('\n2. Committing and pushing to GitHub...');
 try {
   execSync('git add scraped/ public/ scripts/ .gitignore', { cwd: path.join(__dirname, '..'), stdio: 'inherit' });
-  execSync('git commit -m "update: change timing to 5:00 PM, update contact page and media dynamic articles"', { cwd: path.join(__dirname, '..'), stdio: 'inherit' });
+  execSync('git commit -m "style(footer): style Twitter button as white button across all pages"', { cwd: path.join(__dirname, '..'), stdio: 'inherit' });
 } catch (e) {
   console.log('Commit note:', e.message);
 }
