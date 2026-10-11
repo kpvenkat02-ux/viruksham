@@ -1,0 +1,4 @@
+/* Base rule loaded for all widths: hides mobile-only elements on desktop */
+.m-only {
+  display: none !important;
+}
