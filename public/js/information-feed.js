@@ -96,6 +96,7 @@
         allPosts = [];
       } else {
         allPosts = data || [];
+        try { localStorage.setItem("vks_cached_posts", JSON.stringify(allPosts)); } catch(e){}
       }
     } catch (err) {
       console.warn('Supabase fetch error:', err);
