@@ -134,12 +134,6 @@ const SEO_CONFIGS = {
     description: 'Statutory disclosures, AMFI registration details (ARN 274361), and regulatory notices for mutual fund investments.',
     keywords: 'mutual fund disclaimer, arn 274361, amfi registered distributor, mutual fund distributor in chennai',
     canonical: 'https://virukshamfin.com/disclaimer.html'
-  },
-  'disclosure.html': {
-    title: 'Commission Disclosures | Viruksham Finmart Mutual Fund Distributor Chennai',
-    description: 'Regulatory commission disclosure rates and transparency details in accordance with SEBI and AMFI guidelines.',
-    keywords: 'commission disclosure, mutual fund distributor in chennai, investment advisor, mutual fund advisor, arn 274361',
-    canonical: 'https://virukshamfin.com/disclosure.html'
   }
 };
 

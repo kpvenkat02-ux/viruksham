@@ -44,31 +44,70 @@
      2. Re-enable Mobile-Only Elements (.m-only)
      -------------------------------------------------------------------------- */
   .m-only {
-    display: block !important;
+    display: block;
   }
   .m-bottom-nav.m-only {
-    display: flex !important;
+    display: flex;
   }
   .m-drawer-sheet.m-only {
+    display: none;
+  }
+  .m-drawer-sheet.m-only.active {
     display: flex !important;
   }
   .m-sticky-cta.m-only {
+    display: flex;
+  }
+  .m-fab,
+  .m-fab.m-only,
+  #m-whatsapp-fab {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+  }
+  .m-sheet.m-only {
+    display: none;
+  }
+  .m-sheet.m-only.active {
     display: flex !important;
   }
-  .m-fab.m-only {
+  .m-video-sheet.m-only {
+    display: none;
+  }
+  .m-video-sheet.m-only.active {
     display: flex !important;
   }
-  .m-sheet-container.m-only {
-    display: flex !important;
+  .m-sheet-backdrop.m-only {
+    display: none;
+  }
+  .m-sheet-backdrop.m-only.active {
+    display: block !important;
+  }
+
+  /* Inactive sheets and modals must NEVER render or bleed into viewport */
+  .m-sheet:not(.active),
+  .m-video-sheet:not(.active),
+  .m-drawer-sheet:not(.active),
+  .m-sheet-backdrop:not(.active),
+  .m-drawer-backdrop:not(.active) {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transform: translateY(160%) !important;
   }
 
   /* --------------------------------------------------------------------------
      3. Global Mobile System & Typography
      -------------------------------------------------------------------------- */
+  html {
+    background-color: #012F6A !important; /* Seamless overscroll at bottom matches footer */
+  }
+
   html, body {
     font-size: 16px !important;
     line-height: 1.55 !important;
-    background-color: var(--m-color-canvas) !important;
     color: var(--m-color-ink) !important;
     font-family: var(--m-font-sans) !important;
     overflow-x: hidden !important;
@@ -79,7 +118,8 @@
 
   body {
     padding-top: var(--m-header-height) !important;
-    padding-bottom: calc(var(--m-bottom-nav-height) + var(--m-safe-bottom) + 24px) !important;
+    padding-bottom: 0 !important; /* Eliminate white/black blank gap after footer */
+    background-color: var(--m-color-canvas) !important;
   }
 
   h1, [class*="HeadingTitle"], [class*="PageTitle"] {
@@ -173,21 +213,46 @@
   header .ui__Shell-sc-ebfd46a2-3.header__Bar-sc-347dc4f8-1,
   header [class*="header__Bar"] {
     height: 100% !important;
-    padding: 0 !important;
+    padding: 0 12px 0 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 10px !important;
+    gap: 8px !important;
     width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Left-corner Header Logo Badge */
+  header .header__Brand-sc-347dc4f8-2,
+  .header__Brand-sc-347dc4f8-2 {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    height: 38px !important;
+    min-width: auto !important;
+    width: auto !important;
+    max-width: 155px !important;
+    background: #ffffff !important;
+    padding: 4px 10px !important;
+    margin: 0 0 0 12px !important;
+    border-radius: 8px !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+    flex-shrink: 0 !important;
   }
 
   header .header__Brand-sc-347dc4f8-2 img,
   header img.header__Mark-sc-347dc4f8-4,
   header [class*="header__Mark"] {
-    height: 28px !important;
+    height: 26px !important;
     width: auto !important;
-    max-width: 160px !important;
+    max-width: 135px !important;
     object-fit: contain !important;
+    margin: 0 !important;
+    display: block !important;
   }
 
   /* Right Header Controls */
@@ -196,6 +261,8 @@
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
   }
 
   /* Hide Desktop 'Talk to us' from header to preserve compact 56px layout */
@@ -455,7 +522,10 @@
   }
 
   .m-bottom-nav.nav-hidden {
-    transform: translateY(100%);
+    transform: translateY(140%);
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
   }
 
   .m-nav-item {
@@ -502,25 +572,13 @@
   /* --------------------------------------------------------------------------
      7. Floating Actions: WhatsApp FAB & Sticky Consultation Bar
      -------------------------------------------------------------------------- */
-  .m-fab {
-    position: fixed;
-    bottom: calc(var(--m-bottom-nav-height) + var(--m-safe-bottom) + 64px);
-    right: 16px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #25D366;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
-    z-index: 99985;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .m-fab:active {
-    transform: scale(0.92);
+  /* Floating WhatsApp FAB - Permanently Hidden */
+  .m-fab,
+  #m-whatsapp-fab {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
   }
 
   .m-sticky-cta {
@@ -609,13 +667,17 @@
   }
 
   /* Advisor Trust Row */
+  /* Advisor Trust Row: Name and Initial in same line, role in next line */
   .hero-advisor-block {
     display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    text-align: left !important;
+    gap: 4px !important;
     border-left: none !important;
     border-top: none !important;
-    padding: 10px 14px !important;
+    padding: 12px 16px !important;
     background: #FFFFFF !important;
     border: 1px solid var(--m-color-line-soft) !important;
     border-radius: var(--m-radius-md) !important;
@@ -634,14 +696,25 @@
   }
 
   .hero-advisor-name {
-    font-size: 13.5px !important;
+    display: block !important;
+    width: 100% !important;
+    font-size: clamp(12.5px, 3.8vw, 14px) !important;
     font-weight: 700 !important;
     color: var(--m-color-ink) !important;
+    white-space: nowrap !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
   }
 
   .hero-advisor-role {
-    font-size: 12px !important;
+    display: block !important;
+    width: 100% !important;
+    font-size: 12.5px !important;
     color: var(--m-color-ink-soft) !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
   }
 
   /* Two full-width stacked buttons */
@@ -692,18 +765,23 @@
     right: 0;
     bottom: 0;
     max-height: 90vh;
+    max-height: 90dvh;
     background: #ffffff;
     border-radius: 24px 24px 0 0;
     z-index: 100011;
-    display: flex;
+    display: none;
     flex-direction: column;
-    transform: translateY(100%);
+    transform: translateY(140%);
     transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 -8px 36px rgba(1, 47, 106, 0.3);
     overflow: hidden;
   }
   .m-sheet.active {
-    transform: translateY(0);
+    display: flex !important;
+    transform: translateY(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
   }
 
   .m-sheet-handle {
@@ -1241,15 +1319,19 @@
     background: #0a1128;
     border-radius: 20px 20px 0 0;
     z-index: 100020;
-    display: flex;
+    display: none;
     flex-direction: column;
-    transform: translateY(100%);
+    transform: translateY(140%);
     transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
     overflow: hidden;
   }
   .m-video-sheet.active {
-    transform: translateY(0);
+    display: flex !important;
+    transform: translateY(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
   }
 
   .m-video-sheet-header {
@@ -1645,6 +1727,7 @@
     padding-top: 32px !important;
     padding-bottom: calc(var(--m-bottom-nav-height) + var(--m-safe-bottom) + 30px) !important;
     background: #012F6A !important;
+    margin-bottom: 0 !important;
   }
 
   .footer__Columns-sc-9b980077-2,
@@ -1853,6 +1936,31 @@
   .testi-investor-badge {
     color: #012F6A !important;
     font-weight: 700 !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     21b. Pre-Footer Regulatory Disclaimer
+     -------------------------------------------------------------------------- */
+  .site-prefooter-disclaimer {
+    padding: 28px 0 24px 0 !important;
+  }
+  .disclaimer-alert-banner {
+    padding: 12px 14px !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+    border-radius: 8px !important;
+  }
+  .disclaimer-alert-banner div {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+  .disclaimer-columns-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .disclaimer-columns-grid p {
+    font-size: 12.5px !important;
+    line-height: 1.55 !important;
   }
 
   /* --------------------------------------------------------------------------

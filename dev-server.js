@@ -353,6 +353,14 @@ const server = http.createServer((req, res) => {
 
   // 3. Try routing to scraped pages
   let pageFilename = null;
+  if (urlPath === '/kpvenkat' || urlPath === '/kpvenkat/' || urlPath === '/kpvenkat.html' || urlPath === '/admin' || urlPath === '/admin.html') {
+    res.writeHead(302, { 'Location': '/information#admin' });
+    return res.end();
+  }
+  if (urlPath === '/disclosure' || urlPath === '/disclosure/' || urlPath === '/disclosure.html') {
+    res.writeHead(302, { 'Location': '/disclaimer' });
+    return res.end();
+  }
   if (urlPath === '/research' || urlPath === '/research.html') {
     res.writeHead(302, { 'Location': '/tools' });
     return res.end();

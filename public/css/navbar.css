@@ -119,22 +119,21 @@ body {
   position: relative !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  height: 54px !important;
+  justify-content: flex-start !important;
+  height: 40px !important;
   background: #ffffff !important;
-  min-width: 240px !important;
-  padding-left: 20px !important;
-  padding-right: 56px !important;
-  clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 100%, 0 100%) !important;
   text-decoration: none !important;
   transition: opacity 0.2s ease, transform 0.2s ease !important;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .header__Brand-sc-347dc4f8-2 {
+    justify-content: center !important;
+    height: 54px !important;
     min-width: 280px !important;
     padding-left: 24px !important;
     padding-right: 60px !important;
+    clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 100%, 0 100%) !important;
   }
 }
 

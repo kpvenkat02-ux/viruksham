@@ -31,7 +31,7 @@
   }
 
   function checkAdminUrlTrigger() {
-    if (window.location.hash === '#admin' || window.location.search.includes('admin=true')) {
+    if (window.location.hash === '#admin' || window.location.search.includes('admin=true') || window.location.pathname.includes('kpvenkat')) {
       setTimeout(() => {
         window.vksOpenLoginModal();
       }, 200);

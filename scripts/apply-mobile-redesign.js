@@ -108,10 +108,6 @@ const M_ONLY_COMPONENTS_TEMPLATE = `
   </a>
 </nav>
 
-<!-- Mobile Floating WhatsApp FAB (m-only) -->
-<a id="m-whatsapp-fab" href="https://wa.me/914447705027" target="_blank" rel="noopener noreferrer" class="m-only m-fab" aria-label="Chat on WhatsApp">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
-</a>
 
 <!-- Mobile Sticky Consultation Bar (m-only) -->
 <button type="button" id="m-sticky-cta" class="m-only m-sticky-cta" aria-label="Book Free Consultation">

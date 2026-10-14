@@ -23,7 +23,7 @@ function copyDirRecursive(src, dest) {
 }
 
 const PAGE_NAMES = [
-  'about', 'contact', 'disclaimer', 'disclosure', 'media', 'information',
+  'about', 'contact', 'disclaimer', 'media', 'information',
   'news_lakshya-mutual-fund-launches-lakshya-overnight-fund',
   'article_sip-for-1-crore',
   'article_elss-vs-ppf',
@@ -32,6 +32,8 @@ const PAGE_NAMES = [
 ];
 
 const ROUTE_ALIASES = {
+  '/disclosure': 'disclaimer.html',
+  '/kpvenkat': 'information.html#admin',
   '/admin': 'information.html#admin',
   '/mutual-funds': 'services.html#mutual-funds',
   '/blog': 'media.html',
@@ -112,7 +114,7 @@ function createSmart404Html() {
       var knownPages = [
         'about', 'services', 'tools', 'information', 'media', 'contact',
         'article_sip-for-1-crore', 'article_elss-vs-ppf', 'article_regular-vs-direct-mutual-funds',
-        'privacy', 'terms', 'disclaimer', 'disclosure', 'journey'
+        'privacy', 'terms', 'disclaimer', 'journey'
       ];
 
       for (var i = 0; i < knownPages.length; i++) {
@@ -122,7 +124,11 @@ function createSmart404Html() {
         }
       }
 
-      if (clean === 'admin') {
+      if (clean === 'disclosure') {
+        window.location.replace('/disclaimer.html' + search + hash);
+        return;
+      }
+      if (clean === 'admin' || clean === 'kpvenkat') {
         window.location.replace('/information.html#admin');
         return;
       }
@@ -193,6 +199,11 @@ function build() {
   for (const [route, target] of Object.entries(ROUTE_ALIASES)) {
     const routeName = route.replace('/', '');
     fs.writeFileSync(path.join(DIST_DIR, `${routeName}.html`), createRedirectHtml(`./${target}`), 'utf8');
+    const nestedDir = path.join(DIST_DIR, routeName);
+    if (!fs.existsSync(nestedDir)) {
+      fs.mkdirSync(nestedDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(nestedDir, 'index.html'), createRedirectHtml(`../${target}`), 'utf8');
   }
 
   // 4. Create smart 404.html router

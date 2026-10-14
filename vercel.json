@@ -3,9 +3,24 @@
   "trailingSlash": false,
   "routes": [
     {
+      "src": "^/kpvenkat/?$",
+      "status": 307,
+      "headers": { "Location": "/information#admin" }
+    },
+    {
       "src": "^/admin$",
       "status": 307,
       "headers": { "Location": "/information#admin" }
+    },
+    {
+      "src": "^/disclosure/?$",
+      "status": 308,
+      "headers": { "Location": "/disclaimer" }
+    },
+    {
+      "src": "^/disclosure\\.html$",
+      "status": 308,
+      "headers": { "Location": "/disclaimer" }
     },
     {
       "src": "^/mutual-funds$",
