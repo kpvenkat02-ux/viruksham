@@ -1,0 +1,6 @@
+/* Base rule: hides mobile-only elements on desktop and tablets (>= 768px) */
+@media (min-width: 768px) {
+  .m-only {
+    display: none !important;
+  }
+}
