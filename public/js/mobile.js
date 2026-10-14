@@ -157,24 +157,10 @@
       }
     });
 
-    // Auto-hide on scroll down, show on scroll up
-    let lastScrollY = window.scrollY;
-    let scrollThreshold = 10;
-
+    // Ensure navigation buttons stay pinned and visible
     function onScroll() {
       if (!isMobile()) return;
-      const currentScrollY = window.scrollY;
-      const diff = currentScrollY - lastScrollY;
-
-      if (diff > scrollThreshold && currentScrollY > 70) {
-        // Scrolling down
-        bottomNav.classList.add('nav-hidden');
-      } else if (diff < -scrollThreshold || currentScrollY <= 20) {
-        // Scrolling up
-        bottomNav.classList.remove('nav-hidden');
-      }
-
-      lastScrollY = currentScrollY;
+      bottomNav.classList.remove('nav-hidden');
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });

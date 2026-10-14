@@ -387,6 +387,18 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
 }
 
+@media (max-width: 767px) {
+  header .ctjA-Da,
+  header [class*="ctjA-Da"],
+  header a[href*="contact"],
+  .header__Actions-sc-347dc4f8-18 a[href*="contact"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
 .ctjA-Da svg,
 .header__Actions-sc-347dc4f8-18 a[href*="contact"] svg {
   width: 28px !important;
