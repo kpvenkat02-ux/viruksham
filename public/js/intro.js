@@ -112,6 +112,8 @@
     var p = video.play();
     if (p && p.catch) p.catch(function() { setTimeout(finish, 1200); });
   }
+  on('loadeddata', start, { once: true });
+  on('canplay', start, { once: true });
   on('canplaythrough', start, { once: true });
-  setTimeout(start, 1500);
+  setTimeout(start, 600);
 })();

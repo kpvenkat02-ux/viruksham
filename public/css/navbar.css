@@ -676,6 +676,21 @@ h1.ldMMBd,
   line-height: 1.4 !important;
 }
 
+.stat-unit-desktop {
+  display: inline;
+}
+.stat-unit-mobile {
+  display: none;
+}
+@media (max-width: 767px) {
+  .stat-unit-desktop {
+    display: none !important;
+  }
+  .stat-unit-mobile {
+    display: inline !important;
+  }
+}
+
 /* ==========================================================================
    ABOUT PREVIEW SECTION & PORTRAIT LAYOUT
    ========================================================================== */
