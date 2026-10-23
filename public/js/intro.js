@@ -1,17 +1,16 @@
 /**
  * Viruksham Fullscreen Video Intro Controller
- * File: /js/intro.js (< 3KB)
+ * File: /js/intro.js (< 3.5KB)
  */
 (function() {
   'use strict';
 
   // --- CONFIGURATION KNOBS ---
-  var EARLY_FADE_SECONDS = 9.95; // Waits for video completion (10s) before sliding up.
-  var PLAYBACK_SPEED = 1.75;     // Playback speed multiplier (1.75 = snappy ~5.7s duration).
-  var SHORT_MOBILE = false;      // Set true to skip to final 4s on mobile (<1024px).
-  var DISABLE_INTRO = false;     // Set true to bypass intro during development.
+  var EARLY_FADE_SECONDS = 9.85; // Waits for video completion (10s) before sliding up
+  var PLAYBACK_SPEED = 1.4;      // Default desktop speed multiplier
+  var DISABLE_INTRO = false;     // Set true to bypass intro during development
 
-  // URL query overrides: ?intro=1 (force play), ?speed=1.75 (custom speed)
+  // URL query overrides: ?intro=1 (force play), ?speed=1.5 (custom speed)
   var qSpeed = (location.search.match(/[?&]speed=([0-9.]+)/) || [])[1];
   if (qSpeed) PLAYBACK_SPEED = parseFloat(qSpeed);
 
@@ -20,10 +19,26 @@
   var overlay = $('intro-overlay'), video = $('intro-video');
   if (!overlay || !video) return;
 
-  // Enforce permanent mute
+  // Detect mobile & touch devices
+  var isMobile = (window.innerWidth < 768) || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
+  if (isMobile && !qSpeed) {
+    // Smooth 1.15x playback on mobile so hardware decoders don't drop frames or choke
+    PLAYBACK_SPEED = 1.15;
+  }
+
+  // Strictly enforce mute and inline playback properties before any play attempts
   video.muted = true;
   video.defaultMuted = true;
   video.volume = 0;
+  video.playsInline = true;
+  try {
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('x5-playsinline', 'true');
+    video.setAttribute('disablepictureinpicture', 'true');
+    video.setAttribute('disableremoteplayback', 'true');
+  } catch(e) {}
 
   var isDemo = /[?&]intro=1\b/.test(location.search);
   var seen = false;
@@ -32,7 +47,7 @@
   function showPage() {
     de.classList.remove('intro-active');
     d.body.classList.remove('intro-active');
-    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
     window.dispatchEvent(new Event('scroll'));
   }
 
@@ -50,7 +65,7 @@
     if (isFinished) return;
     isFinished = true;
     try { sessionStorage.setItem('v_intro_seen', '1'); } catch(e) {}
-    overlay.classList.add('intro-fading');
+    if (overlay) overlay.classList.add('intro-fading');
     de.classList.remove('intro-active');
     d.body.classList.remove('intro-active');
 
@@ -64,56 +79,105 @@
   }
 
   // Accessibility: Screen-reader skip link triggers instant reveal
-  var skip = d.querySelector('a[href="#main"]');
-  if (skip) skip.onclick = finish;
+  var skipLink = d.querySelector('a[href="#main"]');
+  if (skipLink) skipLink.onclick = finish;
 
-  // Motion reduction and Data-Saver checks
+  // Dedicated Skip Button
+  var skipBtn = $('intro-skip-btn');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function(e) {
+      if (e) {
+        if (e.preventDefault) e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+      }
+      finish();
+    });
+  }
+
+  // Tap anywhere on overlay to skip seamlessly on mobile
+  overlay.addEventListener('click', function(e) {
+    finish();
+  });
+  overlay.addEventListener('touchstart', function(e) {
+    if (e && e.target && skipBtn && (e.target === skipBtn || skipBtn.contains(e.target))) return;
+    finish();
+  }, { passive: true });
+
+  // Escape & Space bar shortcuts to skip
+  window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.key === ' ') finish();
+  }, { once: true });
+
+  // Motion reduction and Data-Saver checks: dismiss immediately WITHOUT pausing on-screen
   var redMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var c = navigator.connection;
   var slowConn = c && (c.saveData || (c.effectiveType && /2g/.test(c.effectiveType)));
   if (redMotion || slowConn) {
-    video.pause();
-    return setTimeout(finish, slowConn ? 800 : 400);
+    return cleanUp();
   }
 
+  // Safe playback speed application (only set once actively playing to avoid WebKit pause bug)
   function applySpeed() {
     try {
       video.muted = true;
       if (PLAYBACK_SPEED && PLAYBACK_SPEED !== 1.0) {
-        video.defaultPlaybackRate = PLAYBACK_SPEED;
         video.playbackRate = PLAYBACK_SPEED;
       }
     } catch(e) {}
   }
 
-  if (SHORT_MOBILE && window.innerWidth < 1024) video.currentTime = 6.0;
+  // Safety stall timeout: if mobile network is too slow, gracefully dismiss instead of hanging
+  var stallTimer = setTimeout(finish, isMobile ? 3500 : 5000);
 
-  var stall = setTimeout(finish, 5000);
   function on(t, f, o) { video.addEventListener(t, f, o); }
-  on('loadstart', applySpeed);
-  on('loadedmetadata', applySpeed);
-  on('play', applySpeed);
+
   on('playing', function() {
+    clearTimeout(stallTimer);
     applySpeed();
-    clearTimeout(stall);
   }, { once: true });
+
   on('error', finish);
-  on('stalled', function() { if (!stall) stall = setTimeout(finish, 2000); });
+  on('stalled', function() {
+    setTimeout(function() {
+      if (video.paused || video.readyState < 3) finish();
+    }, 1200);
+  });
+  on('waiting', function() {
+    setTimeout(function() {
+      if (video.paused || video.readyState < 3) finish();
+    }, 1500);
+  });
   on('timeupdate', function() {
     if (EARLY_FADE_SECONDS && video.currentTime >= EARLY_FADE_SECONDS) finish();
   });
-  on('ended', function() { setTimeout(finish, 120); });
+  on('ended', function() {
+    finish();
+  });
 
   var started = false;
   function start() {
-    if (started) return;
+    if (started || isFinished) return;
     started = true;
-    applySpeed();
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
     var p = video.play();
-    if (p && p.catch) p.catch(function() { setTimeout(finish, 1200); });
+    if (p && typeof p.then === 'function') {
+      p.then(function() {
+        // Autoplay succeeded smoothly
+      }).catch(function() {
+        // If mobile browser blocks autoplay (e.g. Low Power Mode), finish immediately
+        // DO NOT show a paused video with a pause button!
+        finish();
+      });
+    }
   }
+
   on('loadeddata', start, { once: true });
   on('canplay', start, { once: true });
   on('canplaythrough', start, { once: true });
-  setTimeout(start, 600);
+
+  // Kickstart playback attempt
+  setTimeout(start, 250);
 })();
