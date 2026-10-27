@@ -585,43 +585,6 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
     visibility: hidden !important;
     pointer-events: none !important;
   }
-  .intro-skip-btn {
-    position: absolute;
-    top: calc(env(safe-area-inset-top, 14px) + 14px);
-    right: calc(env(safe-area-inset-right, 14px) + 14px);
-    z-index: 1000000;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 15px;
-    background: rgba(1, 47, 106, 0.06);
-    border: 1px solid rgba(1, 47, 106, 0.18);
-    border-radius: 9999px;
-    color: #012F6A;
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all 180ms ease;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .intro-skip-btn:hover,
-  .intro-skip-btn:active {
-    background: rgba(1, 47, 106, 0.12);
-    border-color: rgba(1, 47, 106, 0.35);
-    transform: scale(1.04);
-  }
-  .intro-skip-btn svg {
-    color: #012F6A;
-    transition: transform 180ms ease;
-  }
-  .intro-skip-btn:hover svg {
-    transform: translateX(2px);
-  }
   /* Stagger Reveal Elements */
   .intro-active .intro-reveal-step {
     opacity: 0 !important;
@@ -656,10 +619,6 @@ data-styled.g417[id="about__CommitmentBody-sc-321a39b6-29"]{content:"fjQBgX,"}/*
 <body>
 <!-- Fullscreen Video Intro Overlay -->
 <div id="intro-overlay" role="region" aria-label="Website Introduction Video">
-  <button type="button" id="intro-skip-btn" class="intro-skip-btn" aria-label="Skip intro animation">
-    <span>Skip</span>
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-  </button>
   <video
     id="intro-video"
     autoplay

@@ -84,24 +84,11 @@ const code = `/**
   var skipLink = d.querySelector('a[href="#main"]');
   if (skipLink) skipLink.onclick = finish;
 
-  // Dedicated Skip Button
-  var skipBtn = $('intro-skip-btn');
-  if (skipBtn) {
-    skipBtn.addEventListener('click', function(e) {
-      if (e) {
-        if (e.preventDefault) e.preventDefault();
-        if (e.stopPropagation) e.stopPropagation();
-      }
-      finish();
-    });
-  }
-
-  // Tap anywhere on overlay to skip seamlessly on mobile
+  // Tap anywhere on overlay to skip seamlessly on mobile & desktop
   overlay.addEventListener('click', function(e) {
     finish();
   });
   overlay.addEventListener('touchstart', function(e) {
-    if (e && e.target && skipBtn && (e.target === skipBtn || skipBtn.contains(e.target))) return;
     finish();
   }, { passive: true });
 
