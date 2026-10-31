@@ -33,7 +33,7 @@ const SEO_CONFIGS = {
       },
       {
         q: 'Where is the Viruksham Finmart office located in Chennai?',
-        a: 'Our office is located at 47, Unnamalai Ammal Street, T. Nagar, Chennai - 600 017, Tamil Nadu. Phone: +91 44 4770 5027 | WhatsApp: +91 98840 27436 | Email: kpvenkat02@gmail.com.'
+        a: 'Our office is located at 47, Unnamalai Ammal Street, T. Nagar, Chennai - 600 017, Tamil Nadu. Phone: +91 44 4770 5027 | WhatsApp: +91 98840 27436 | Email: padma@virukshamfin.com.'
       }
     ]
   },
@@ -153,7 +153,7 @@ const MASTER_ORGANIZATION_SCHEMA = {
   "image": "https://virukshamfin.com/images/viruksham-logo.png",
   "logo": "https://virukshamfin.com/images/viruksham-logo.png",
   "telephone": "+91 44 4770 5027",
-  "email": "kpvenkat02@gmail.com",
+  "email": "padma@virukshamfin.com",
   "priceRange": "₹₹",
   "serviceType": [
     "Mutual Fund Distributor in Chennai",
@@ -214,7 +214,7 @@ const MASTER_ORGANIZATION_SCHEMA = {
     "@id": "https://virukshamfin.com/#advisor",
     "name": "K P VENKATARAMAKRISHNAN",
     "jobTitle": "AMFI-Registered Mutual Fund Distributor & Investment Advisor",
-    "email": "kpvenkat02@gmail.com",
+    "email": "padma@virukshamfin.com",
     "telephone": "+91 44 4770 5027",
     "worksFor": { "@id": "https://virukshamfin.com/#practice" },
     "hasCredential": [
